@@ -1,0 +1,216 @@
+:root{
+    --primaria: #e1b7ef;
+    --secundaria:#8d279b;
+    --terceiro: #f7f5f1;
+    --texto-escuro: #333;
+    --claro: #e9e3eb;
+    --branco: #ffffff;
+    /*lista de cores que vou usar, para facilitar e não ter que copiar
+     ou escolher toda vez*/
+}
+
+*{
+    margin: 0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+    background-color: var(--claro);
+}
+
+header{
+    background-color: var(--terceiro);
+    padding: 40px 10%; /*altura do cabeçalho*/
+    box-shadow: 0 2px 10px #626162;
+    position: sticky; /*segura o cabeçalho no lugar*/
+    top: 0; /*0- gruda o cabeçalho no topo da pag*/
+    z-index: 1000;
+}
+
+header nav{
+    display: flex; /*deixa a lista ao lado da logo*/
+    justify-content: space-between; /*deixa a lista de um lado e o logo do outro, da espaço*/
+    align-items: center; /*deixa eles centralizados, nem pra cima nem pra baixo*/
+}
+
+.logo{
+    display: flex; /*deixo o texto e a img em linha*/
+    align-items: center; /*centraliza os dois*/
+    gap: 20px; /*espaço entre img e texto*/
+    font-size: 20px; /*tamanho da fonte*/
+    text-align: center; /*posição da fonte*/
+    font-weight: bold; /*fonte gordinha*/
+    margin-right: space-between; /*posição do logo*/
+    white-space: nowrap; /*deixa o texto alinhado*/
+    color: var(--secundaria);
+}
+
+span{
+    font-family: display;
+}
+
+nav ul{
+    display: flex; /*deixa a lista uma ao lado da outra na horizontal*/
+    list-style: none;
+}
+
+nav ul li a{
+    text-decoration: none; /*tira o sublinhado do link*/
+    color: var(--secundaria);
+    margin: 0 40px; /*espaçamento da lista*/
+    font-weight: 600;
+    transition: 0.3s; /*transição da cor mudando com o mouse passando por cima*/
+}
+
+nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
+    color: var(--primaria);
+}
+
+.banner{
+    height: 80vh; /*espaço que ocupa de tela*/
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+     url('img/atelie_fundo.jpeg') center/cover; /*deixa a imagem do fundo escura*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--branco);
+}
+
+.banner h1 {
+    font-size: 4rem;
+    margin-bottom: 10px;
+}
+
+.banner p {
+    font-size: 2rem;
+    color: var(--claro);
+}
+
+.btn {
+    display: inline-block; /*bom para responsividade pq se adequa ao tamanho da pag*/
+    padding: 12px 30px;
+    background-color: var(--secundaria);
+    color: var(--branco);
+    text-decoration: none;
+    border-radius: 25px;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+
+.btn:hover, .btn-pedir:hover{
+    background-color: var(--primaria);
+    color: var(--secundaria);
+}
+
+.container {
+    max-width: 1250px;  
+    margin: 40px auto; 
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); 
+}
+.container h1, h2 { 
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--secundaria);
+    padding-bottom: 10px;
+    text-align: center;
+    color: var(--secundaria);
+}
+
+.container p {
+    font-size: 20px;
+    text-align: justify;
+    align-items: center;
+}
+
+.container a{
+    display: block;
+    margin: 20px auto;
+    width: 150px;
+    text-align: center;
+}
+
+.container h3{
+    text-align: center;
+    color: var(--texto-escuro);
+}
+
+.coluna-prod{
+    display: flex;
+    gap: 25px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    flex: 1 1 300px;
+    max-width: 350px;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover { 
+    transform: translateY(-10px);
+}
+
+.card img { 
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-corpo { 
+    padding: 30px;
+    text-align: left;
+}
+
+.card-rodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.btn-pedir {
+    background: var(--secundaria);
+    color: var(--claro);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    /* Ajusta o Header para não ter altura fixa e comportar os itens empilhados */
+    header {
+        padding: 20px 2%; /* Diminuímos o padding lateral de 10% para 2% */
+    }
+
+    /* Faz o Nav empilhar o conteúdo em vez de tentar deixar lado a lado */
+    nav {
+        flex-direction: column; 
+        gap: 15px; /* Cria um espaço entre a logo e os links */
+    }
+
+    /* Ajusta a Logo para centralizar e não "fugir" da tela */
+    .logo {
+        margin-right: 0; /* Remove aquele margin de 150px que está empurrando tudo */
+        text-align: center;
+        white-space: normal; /* Permite que o texto da logo quebre linha se necessário */
+    }
+
+    /* Organiza os links do menu para ficarem bonitos no celular */
+    nav ul { 
+        display: flex;
+        flex-wrap: wrap; /* Se não couberem na linha, eles pulam para baixo sozinhos */
+        justify-content: center;
+        gap: 10px;
+        padding: 0;
+    }
+}
