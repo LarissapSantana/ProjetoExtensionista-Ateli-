@@ -429,3 +429,53 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     font-size: 0.85rem;
     color: rgba(255, 255, 255, 0.6);
 }
+
+.link-admin {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 1rem; /* Menor que o texto comum */
+    color: rgba(255, 255, 255, 0.6); /* Branco com transparência para ser discreto */
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: 0.3s;
+}
+
+.link-admin:hover {
+    color: #ffffff;
+    border-bottom: 1px solid #ffffff;
+}
+
+/*PAGINA ADMIN-LOGIN*/
+.admin-login-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--claro) 0%, var(--primaria) 100%);
+        }
+        .admin-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .admin-card img {
+            height: 80px;
+            margin-bottom: 20px;
+        }
+        .admin-card h2 {
+            border-bottom: none;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+        }
+        .voltar-site {
+            display: block;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: var(--secundaria);
+            text-decoration: none;
+        }
+        .voltar-site:hover { text-decoration: underline; }
