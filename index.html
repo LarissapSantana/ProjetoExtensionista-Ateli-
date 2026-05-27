@@ -41,8 +41,24 @@
         <h2>Nossos Produtos</h2>
         <h3 >Confira nossa seleção de doces artesanais feitos com muito carinho e ingredientes de qualidade!</h3>
         
+        <div class="filtros-container">
+            <input type="text" id="buscaNome" placeholder="O que você procura?" onkeyup="filtrarProdutos()">
+
+            <select id="filtroCategoria" onchange="filtrarProdutos()">
+                <option value="todos">Todas as Categorias</option>
+                <option value="bolos">Bolos</option>
+                <option value="doces">Doces Finos</option>
+            </select>
+
+            <select id="filtroPreco" onchange="filtrarProdutos()">
+                <option value="999">Qualquer preço</option>
+                <option value="50">Até R$ 50,00</option>
+                <option value="100">Até R$ 100,00</option>
+            </select>
+        </div>
+
         <div class="coluna-prod">
-            <div class="card">
+            <div class="card" data-categoria="bolos" data-preco="80.00">
                 <img src="img/boloTeste.jpeg" alt="Bolo de Chocolate">
                 <div class="card-corpo">
                     <h3>Bolo de Chocolate</h3>
@@ -53,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card" data-categoria="cone" data-preco="80.00">
                 <img src="img/boloTeste.jpeg" alt="Bolo de Chocolate">
                 <div class="card-corpo">
                     <h3>Bolo de Chocolate</h3>
@@ -132,17 +148,42 @@
 
         </div>
     </section>
-    <section id="cadastrar" class="container">
-        <form>
-            <h2>Cadastre-se</h2>
-            <h4>Nome Completo</h4>
-            <input type="text" placeholder="Seu Nome Completo" required> 
-            <h4>E-mail</h4>
-            <input type="email" placeholder="Seu E-mail" required>
-            <h4>CPF ou CNPJ</h4>
-            <input type="text" placeholder="000.000-00" required> 
-            <button type="submit" class="btn-submit">Cadastrar</button>
-        </form>
+    <section id="cadastro" class="container">
+        <div class="acesso-box">
+            <div class="abas-container">
+                <button class="aba-btn active" onclick="trocarAba('login')">Login</button>
+                <button class="aba-btn" onclick="trocarAba('registro')">Cadastrar</button>
+            </div>
+
+            <form id="form-login" class="form-acesso active">
+                <h2>Acesse sua conta</h2>
+                <input type="email" placeholder="E-mail" required>
+                <input type="password" placeholder="Senha" required>
+                <button type="submit" class="btn-acao">Entrar</button>
+            </form>
+
+            <form id="form-registro" class="form-acesso">
+                <h2>Crie sua conta</h2>
+                
+                <div class="tipo-perfil">
+                    <label>
+                        <input type="radio" name="perfil" value="cpf" checked onclick="ajustarCampos('cpf')"> Pessoa Física (CPF)
+                    </label>
+                    <label>
+                        <input type="radio" name="perfil" value="cnpj" onclick="ajustarCampos('cnpj')"> Empresa (CNPJ)
+                    </label>
+                </div>
+
+                <input type="text" placeholder="Nome Completo / Razão Social" required>
+                <input type="email" placeholder="E-mail" required>
+                <input type="text" id="doc-input" placeholder="000.000.000-00" required>
+                <input type="password" placeholder="Crie uma senha" required>
+                
+                <button type="submit" class="btn-acao">Finalizar Cadastro</button>
+            </form>
+        </div>
+    </section>
+        
     </section>
 
     <footer id="contato">

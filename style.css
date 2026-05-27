@@ -94,8 +94,30 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     color: var(--claro);
 }
 
+.filtros-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0 40px 0;
+    flex-wrap: wrap;
+}
+
+#buscaNome, #filtroCategoria, #filtroPreco {
+    padding: 10px 15px;
+    border: 1px solid var(--primaria);
+    border-radius: 25px;
+    outline: none;
+    color: var(--secundaria);
+    font-size: 0.9rem;
+}
+
+#buscaNome:focus, #filtroCategoria:focus, #filtroPreco:focus {
+    border-color: #8d279b;
+    outline: none;
+}
+
 .btn {
-    display: inline-block; /*bom para responsividade pq se adequa ao tamanho da pag*/
+    display: inline-block;
     padding: 12px 30px;
     background-color: var(--secundaria);
     color: var(--branco);
@@ -222,10 +244,87 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     }
 }
 
+#cadastro.container {
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.acesso-box {
+    background: white;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.abas-container {
+    display: flex;
+    background: #f8f8f8;
+}
+
+.aba-btn {
+    flex: 1;
+    padding: 15px;
+    border: none;
+    cursor: pointer;
+    background: #f0e6f2;
+    color: #8d279b;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.aba-btn.active {
+    background: white;
+    border-bottom: 3px solid #8d279b;
+}
+
+.form-acesso {
+    display: none; /* Escondido por padrão */
+    padding: 30px;
+}
+
+.form-acesso.active {
+    display: block; /* Mostra apenas o ativo */
+}
+
+.tipo-perfil {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.btn-acao {
+    width: 100%;
+    padding: 12px;
+    background: #8d279b;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.form-acesso input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
 /*Rodapé*/
 #contato {
-    background-color: #8d279b; /* O roxo que você escolheu */
-    color: #ffffff; /* Texto branco para leitura clara */
+    background-color: #8d279b;
+    color: #ffffff;
     padding: 60px 0 20px 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -248,11 +347,11 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
 .footer-info h3 {
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Alinha à esquerda no desktop */
+    justify-content: flex-start; 
 }
 
 .footer-info h3 img {
-    height: 35px;       /* Logo do rodapé costuma ser um pouco menor */
+    height: 35px; 
     width: auto;
     margin-right: 10px;
     object-fit: contain;
