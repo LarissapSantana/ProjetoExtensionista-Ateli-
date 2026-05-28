@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="style.css">
+    <title>Painel de Pedidos - Ateliê</title>
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="admin-logo">
+            <img src="img/logo.png" alt="Logo">
+            <span>Painel Administrativo</span>
+        </div>
+        <a href="login-adm.html" class="btn-logout">Sair do painel</a>
+    </header>
+
+    <main class="main-panel">
+        <h2 style="text-align: left; border: none;">Gerenciamento de Pedidos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cliente</th>
+                    <th>Produto</th>
+                    <th>Valor</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#1024</td>
+                    <td>Maria Silva (CNPJ)</td>
+                    <td>Bolo de Chocolate (2kg)</td>
+                    <td>R$ 160,00</td>
+                    <td><span class="status-badge pendente">Pendente</span></td>
+                </tr>
+                <tr>
+                    <td>#1023</td>
+                    <td>João Pereira</td>
+                    <td>Doces Finos</td>
+                    <td>R$ 220,00</td>
+                    <td><span class="status-badge producao">Em Produção</span></td>
+                </tr>
+                <tr>
+                    <td>#1022</td>
+                    <td>Ana Costa (CNPJ)</td>
+                    <td>Ganache</td>
+                    <td>R$ 80,00</td>
+                    <td><span class="status-badge entregue">Entregue</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
