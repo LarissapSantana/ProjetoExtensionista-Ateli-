@@ -13,16 +13,16 @@
         <img src="img/logo.png" alt="Logo Ateliê">
         <h2>Acesso Restrito</h2>
         
-        <form action="painel-adm.html" method="GET">
+        <form id="formAdmin" action="painel-adm.html" method="GET">
             <div class="form-acesso active">
-                <input type="email" placeholder="E-mail Administrativo" required>
-                <input type="password" placeholder="Senha" required>
+                <input type="email" id="emailAdmin" placeholder="E-mail Administrativo" required>
+                <input type="password" id="senhaAdmin" placeholder="Senha" required>
                 <button type="submit" class="btn-acao">Entrar</button>
             </div>
         </form>
 
         <a href="index.html" class="voltar-site">← Voltar para o site</a>
     </div>
-
+    <script src="script.js"></script>
 </body>
 </html>

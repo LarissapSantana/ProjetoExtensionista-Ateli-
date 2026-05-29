@@ -43,3 +43,43 @@ function ajustarCampos(perfil) {
         inputDoc.placeholder = "00.000.000/0001-00";
     }
 }
+
+// ACESSO AREA ADM
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('formAdmin');
+
+    if (form) {
+        form.addEventListener('submit', function(event) {
+
+            event.preventDefault();
+            const email = document.getElementById('emailAdmin').value;
+            const senha = document.getElementById('senhaAdmin').value;
+
+            const emailCorreto = "jenifer.atelie@gmail.com";
+            const senhaCorreta = "atelie123";
+
+            if (email === emailCorreto && senha === senhaCorreta) {
+                window.location.href = "painel-adm.html";
+            } else {
+                alert("E-mail ou senha incorretos.");
+            }
+        });
+    }
+});
+
+/*CARRINHO DE COMPRAS */
+function abrirCarrinho() {
+    document.getElementById('modal-carrinho').style.display = "block";
+}
+
+function fecharCarrinho() {
+    document.getElementById('modal-carrinho').style.display = "none";
+}
+
+// Fechar se clicar fora da caixa branca
+window.onclick = function(event) {
+    let modal = document.getElementById('modal-carrinho');
+    if (event.target == modal) {
+        fecharCarrinho();
+    }
+}

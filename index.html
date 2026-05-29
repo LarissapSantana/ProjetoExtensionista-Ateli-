@@ -21,6 +21,10 @@
                 <li><a href="#avaliacao">Avaliações</a></li>
                 <li><a href="#cadastro">Cadastro</a></li>
                 <li><a href="#contato">Contato</a></li>
+                <li>
+                    <a href="javascript:void(0)" class="carrinho-icone" onclick="abrirCarrinho()">
+                        🛒 <span id="carrinho-contador"></span></a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -35,7 +39,7 @@
         <h1> Sobre nós</h1>
         <p> No nosso ateliê vendemos apenas por ENCOMENDA, sendo assim, não há pedidos a pronta entrega. Além disso, nossos serviços são prestados á pessoas júridicas (CNPJ), caso voçê deseje comprar para consumo, os valores dos produtos serão equivalentes aos dos estabelecimentos que os revendem. </p><br>
         <p>Para realizar seu pedido basta fazer seu cadastro, assim que for concluído, você irá para uma página atualizada.</p>
-        <a href="cadastro" class="btn">Faça seu cadastro</a>
+        <a href="#cadastro" class="btn">Faça seu cadastro</a>
     </section>
     <section id="produtos" class="container">
         <h2>Nossos Produtos</h2>
@@ -184,7 +188,23 @@
         </div>
     </section>
         
-    </section>
+    <div id="modal-carrinho" class="carrinho-modal">
+        <div class="carrinho-conteudo">
+            <span class="fechar-carrinho" onclick="fecharCarrinho()">&times;</span>
+            <h2>Meu Carrinho</h2>
+            <hr>
+            
+            <div id="itens-carrinho">
+                <p>Seu carrinho está vazio.</p>
+            </div>
+
+            <div class="carrinho-total">
+                <strong>Total: R$ <span id="total-valor">0,00</span></strong>
+            </div>
+
+            <button class="btn-acao" style="width: 100%; margin-top: 20px;">Finalizar Pedido</button>
+        </div>
+    </div>
 
     <footer id="contato">
         <div class="footer-container">
@@ -196,7 +216,7 @@
                 <p>Doces artesanais feitos com afeto.</p>
                 <p><strong>Horário de Encomendas:</strong><br> Seg a Sex: 09h às 18h</p>
 
-                <a href="login-adm.html" class="link-admin">Acesso Administrativo</a>
+                <a href="login-adm.html" class="link-admin" onclick="trocarAba('login')">Acesso Administrativo</a>
             </div>
             <div class="footer-links">
                 <h4>Navegação</h4>
@@ -213,7 +233,7 @@
                 <a href="https://wa.me/5500999999999" target="_blank" class="btn-whats">
                     Chamar no WhatsApp
                 </a>
-                <p>Email: jenifergama.atelie@gmail.com.br</p>
+                <p>Email: jenifer.atelie@gmail.com</p>
                 <p>Local: São Paulo - SP</p>
             </div>
         </div>
