@@ -1,85 +1,83 @@
-function filtrarProdutos() {
-    const busca = document.getElementById('buscaNome').value.toLowerCase();
-    const categoria = document.getElementById('filtroCategoria').value;
-    const precoMax = parseFloat(document.getElementById('filtroPreco').value);
-    
-    const cards = document.querySelectorAll('.card');
+import { db } from './firebase-config.js';
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const auth = getAuth();
 
-    cards.forEach(card => {
-        const nomeProduto = card.querySelector('h3').innerText.toLowerCase();
-        const categoriaProduto = card.getAttribute('data-categoria');
-        const precoProduto = parseFloat(card.getAttribute('data-preco'));
+/*CADASTRO CLIENTE*/
+const formRegistro = document.getElementById('form-registro');
+if (formRegistro) {
+    formRegistro.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-        const bateNome = nomeProduto.includes(busca);
-        const bateCategoria = (categoria === 'todos' || categoria === categoriaProduto);
-        const batePreco = precoProduto <= precoMax;
+        const nome = formRegistro.querySelector('input[placeholder*="Nome"]').value;
+        const email = formRegistro.querySelector('input[type="email"]').value;
+        const documento = document.getElementById('doc-input').value;
+        const senha = formRegistro.querySelector('input[placeholder="Crie uma senha"]').value;
+        const tipoPerfil = formRegistro.querySelector('input[name="perfil"]:checked').value;
 
-        if (bateNome && bateCategoria && batePreco) {
-            card.style.display = "block";
-        } else {
-            card.style.display = "none";
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
+            const user = userCredential.user;
+
+            await addDoc(collection(db, "usuarios"), {
+                uid: user.uid,
+                nome: nome,
+                email: email,
+                documento: documento,
+                perfil: tipoPerfil,
+                dataCadastro: new Date()
+            });
+
+            alert("Cadastro realizado com sucesso!");
+            formRegistro.reset();
+            trocarAba('login'); 
+
+        } catch (error) {
+            console.error("Erro ao cadastrar:", error.code);
+            if (error.code === 'auth/email-already-in-use') {
+                alert("Este e-mail já está em uso.");
+            } else if (error.code === 'auth/weak-password') {
+                alert("A senha deve ter pelo menos 6 dígitos.");
+            } else {
+                alert("Erro ao cadastrar: " + error.message);
+            }
         }
     });
 }
 
-function trocarAba(tipo) {
-    document.querySelectorAll('.form-acesso').forEach(f => f.classList.remove('active'));
-    document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('active'));
+document.getElementById('btn-login-aba').addEventListener('click', () => trocarAba('login'));
+document.getElementById('btn-registro-aba').addEventListener('click', () => trocarAba('registro'));
 
-    if (tipo === 'login') {
-        document.getElementById('form-login').classList.add('active');
-        event.currentTarget.classList.add('active');
+function trocarAba(aba) {
+    const formLogin = document.getElementById('form-login');
+    const formRegistro = document.getElementById('form-registro');
+    const btnLogin = document.getElementById('btn-login-aba');
+    const btnRegistro = document.getElementById('btn-registro-aba');
+
+    if (aba === 'login') {
+        formLogin.classList.add('active');
+        formRegistro.classList.remove('active');
+        btnLogin.classList.add('active');
+        btnRegistro.classList.remove('active');
     } else {
-        document.getElementById('form-registro').classList.add('active');
-        event.currentTarget.classList.add('active');
+        formLogin.classList.remove('active');
+        formRegistro.classList.add('active');
+        btnLogin.classList.remove('active');
+        btnRegistro.classList.add('active');
     }
 }
+const radiosPerfil = document.querySelectorAll('input[name="perfil"]');
+const inputDoc = document.getElementById('doc-input');
 
-function ajustarCampos(perfil) {
-    const inputDoc = document.getElementById('doc-input');
-    if (perfil === 'cpf') {
-        inputDoc.placeholder = "000.000.000-00";
-    } else {
-        inputDoc.placeholder = "00.000.000/0001-00";
-    }
-}
-
-// ACESSO AREA ADM
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('formAdmin');
-
-    if (form) {
-        form.addEventListener('submit', function(event) {
-
-            event.preventDefault();
-            const email = document.getElementById('emailAdmin').value;
-            const senha = document.getElementById('senhaAdmin').value;
-
-            const emailCorreto = "jenifer.atelie@gmail.com";
-            const senhaCorreta = "atelie123";
-
-            if (email === emailCorreto && senha === senhaCorreta) {
-                window.location.href = "painel-adm.html";
-            } else {
-                alert("E-mail ou senha incorretos.");
-            }
-        });
-    }
+radiosPerfil.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        const perfil = e.target.value; // Pega o valor do rádio clicado ('cpf' ou 'cnpj')
+        
+        inputDoc.value = ""; // Limpa o campo para evitar confusão
+        if (perfil === 'cpf') {
+            inputDoc.placeholder = "000.000.000-00";
+        } else {
+            inputDoc.placeholder = "00.000.000/0001-00";
+        }
+    });
 });
-
-/*CARRINHO DE COMPRAS */
-function abrirCarrinho() {
-    document.getElementById('modal-carrinho').style.display = "block";
-}
-
-function fecharCarrinho() {
-    document.getElementById('modal-carrinho').style.display = "none";
-}
-
-// Fechar se clicar fora da caixa branca
-window.onclick = function(event) {
-    let modal = document.getElementById('modal-carrinho');
-    if (event.target == modal) {
-        fecharCarrinho();
-    }
-}

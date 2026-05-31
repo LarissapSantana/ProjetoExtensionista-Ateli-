@@ -198,8 +198,8 @@
     <section id="cadastro" class="container">
         <div class="acesso-box">
             <div class="abas-container">
-                <button class="aba-btn active" onclick="trocarAba('login')">Login</button>
-                <button class="aba-btn" onclick="trocarAba('registro')">Cadastrar</button>
+                <button class="aba-btn active" id="btn-login-aba">Login</button>
+                <button class="aba-btn" id="btn-registro-aba">Cadastrar</button>
             </div>
 
             <form id="form-login" class="form-acesso active">
@@ -284,6 +284,7 @@
             <p>© 2026 Ateliê Jenifer Gama Confeitaria</p>
         </div>
     </footer>
-    <script src="script.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

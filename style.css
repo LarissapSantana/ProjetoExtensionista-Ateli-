@@ -127,7 +127,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     transition: 0.3s;
 }
 
-.btn:hover, .btn-pedir:hover, .btn-logincliente:hover, .btn-cadastro:hover, .btn-comprar:hover {
+.btn:hover, .btn-pedir:hover, .btn-logincliente:hover, .btn-cadastro:hover, .btn-comprar:hover, .btn-loginadm {
     background-color: var(--primaria);
     color: var(--secundaria);
 }
@@ -343,7 +343,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     color: #666;
 }
 
-.btn-logincliente, .btn-cadastro, .btn-comprar {
+.btn-logincliente, .btn-cadastro, .btn-comprar, .btn-loginadm {
     width: 100%;
     padding: 12px;
     background: #8d279b;
