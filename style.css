@@ -127,7 +127,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     transition: 0.3s;
 }
 
-.btn:hover, .btn-pedir:hover{
+.btn:hover, .btn-pedir:hover, .btn-logincliente:hover, .btn-cadastro:hover, .btn-comprar:hover {
     background-color: var(--primaria);
     color: var(--secundaria);
 }
@@ -172,6 +172,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     margin-top: 40px;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .card {
@@ -206,7 +207,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     margin-top: 15px;
 }
 
-.btn-pedir {
+.btn-pedir{
     background: var(--secundaria);
     color: var(--claro);
     border: none;
@@ -244,6 +245,47 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     }
 }
 
+/*BOTÃO FAVORITAR*/
+.card {
+    position: relative;
+}
+
+.btn-favoritar {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background 0.3s;
+    z-index: 10;
+}
+
+.btn-favoritar:hover {
+    transform: scale(1.1);
+}
+
+.coracao {
+    color: #a2a2a2;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.card.favoritado .coracao {
+    color: #fb3f3f;
+}
+
+.card.favoritado .btn-favoritar {
+    background: white;
+}
+
+/*CADASTRO CLIENTE*/
 #cadastro.container {
     background-color: transparent;
     box-shadow: none;
@@ -285,12 +327,12 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
 }
 
 .form-acesso {
-    display: none; /* Escondido por padrão */
+    display: none;
     padding: 30px;
 }
 
 .form-acesso.active {
-    display: block; /* Mostra apenas o ativo */
+    display: block; 
 }
 
 .tipo-perfil {
@@ -301,7 +343,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     color: #666;
 }
 
-.btn-acao {
+.btn-logincliente, .btn-cadastro, .btn-comprar {
     width: 100%;
     padding: 12px;
     background: #8d279b;
@@ -634,13 +676,15 @@ tr:hover {
 .fechar-carrinho {
     font-size: 28px;
     cursor: pointer;
-    float: left;
     color: #4a1c40;
+    order:2;
 }
 
 .carrinho-conteudo h2 {
-    text-align: center;
+    margin: 0;
     color: #4a1c40;
+    flex-grow: 1;
+    text-align: center;
 }
 
 .carrinho-total {
