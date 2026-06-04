@@ -50,89 +50,400 @@
 
             <select id="filtroCategoria" onchange="filtrarProdutos()">
                 <option value="todos">Todas as Categorias</option>
-                <option value="bolos">Bolos</option>
-                <option value="doces">Doces Finos</option>
+                <option value="bolos">Bolos de pote</option>
+                <option value="sobremesa">Sobremesas no pote</option>
+                <option value="cone">Cones trufados</option>
+                <option value="brownie">Sanduíches de Brownie</option>
             </select>
 
-            <select id="filtroPreco" onchange="filtrarProdutos()">
-                <option value="999">Qualquer preço</option>
-                <option value="50">Até R$ 50,00</option>
-                <option value="100">Até R$ 100,00</option>
+            <select id="filtroCategoria" onchange="filtrarMassas()">
+                <option value="todos">Todas as Categorias</option>
+                <option value="brancas">Brancas</option>
+                <option value="black">Black</option>
+                <option value="chocolate">Chocolate</option>
+                <option value="redvelvet">Red Velvet</option>
             </select>
         </div>
 
         <div class="coluna-prod">
-            <div class="card" data-categoria="bolos" data-preco="80.00">
-                <img src="img/boloTeste.jpeg" alt="Bolo de Chocolate">
+            <div class="card" data-categoria="bolos" data-massa="black">
+                <img src="img/blackMeioAmargo.jpg" alt="Bolo Black Meio Amargo">
                 <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
-                    <h3>Bolo de Chocolate</h3>
-                    <p>Delicioso bolo de chocolate com cobertura cremosa e ganache.</p>
+                    <h3>Bolo Black Meio Amargo</h3>
+                    <p>Delicioso bolo de massa black, com recheio de suflair e cobertura de chocolate meio amargo.</p>
                     <div class="card-rodape">
-                        <span class="preco">R$ 80,00</span>
+                        <span class="preco">R$ 13,00</span>
                         <button class="btn-pedir">Pedir</button>
                     </div>
                 </div>
             </div>
-            <div class="card" data-categoria="cone" data-preco="80.00">
-                <img src="img/boloTeste.jpeg" alt="Bolo de Chocolate">
+            <div class="card" data-categoria="bolos" data-massa="chocolate">
+                <img src="img/brigadeiroMaracuja.jpg" alt="Bolo Brigadeiro com Maracujá">
                 <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
-                    <h3>Bolo de Chocolate</h3>
-                    <p>Delicioso bolo de chocolate com cobertura cremosa e ganache.</p>
+                    <h3>Bolo Brigadeiro com Maracujá</h3>
+                    <p>Delicioso bolo de massa de chocolate, com recheio de maracujá e cobertura de brigadeiro.</p>
                     <div class="card-rodape">
-                        <span class="preco">R$ 80,00</span>
+                        <span class="preco">R$ 13,00</span>
                         <button class="btn-pedir">Pedir</button>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <img src="img/boloTeste.jpeg" alt="Bolo de Chocolate">
+            <div class="card" data-categoria="bolos" data-massa="branca">
+                <img src="img/doceLeiteAmeixa.jpg" alt="Bolo Doce de Leite com Ameixa">
                 <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
-                    <h3>Bolo de Chocolate</h3>
-                    <p>Delicioso bolo de chocolate com cobertura cremosa e ganache.</p>
+                    <h3>Bolo Doce de Leite com Ameixa</h3>
+                    <p>Delicioso bolo de massa branca, com recheio de doce de leite com ameixa cozida e cobertura de ninho.</p>
                     <div class="card-rodape">
-                        <span class="preco">R$ 80,00</span>
+                        <span class="preco">R$ 13,00</span>
                         <button class="btn-pedir">Pedir</button>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <img src="img/boloTeste.jpeg" alt="Bolo de Chocolate">
+            <div class="card" data-categoria="bolos" data-massa="branca">
+                <img src="img/doceLeiteCoco.jpg" alt="Bolo Doce de Leite com Coco">
                 <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
-                    <h3>Bolo de Chocolate</h3>
-                    <p>Delicioso bolo de chocolate com cobertura cremosa e ganache.</p>
+                    <h3>Bolo Doce de Leite com Coco</h3>
+                    <p>Delicioso bolo de massa branca, com recheio de doce de leite com coco queimado e cobertura de ninho.</p>
                     <div class="card-rodape">
-                        <span class="preco">R$ 80,00</span>
+                        <span class="preco">R$ 13,00</span>
                         <button class="btn-pedir">Pedir</button>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <img src="img/boloTeste.jpeg" alt="Bolo de Chocolate">
+            <div class="card" data-categoria="bolos" data-massa="branca">
+                <img src="img/ninhoAbacaxi.jpg" alt="Bolo Ninho com Abacaxi">
                 <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
-                    <h3>Bolo de Chocolate</h3>
-                    <p>Delicioso bolo de chocolate com cobertura cremosa e ganache.</p>
+                    <h3>Bolo Ninho com Abacaxi</h3>
+                    <p>Delicioso bolo de massa branca, com recheio de ninho e abacaxi caramelizado e cobertura de ninho.</p>
                     <div class="card-rodape">
-                        <span class="preco">R$ 80,00</span>
+                        <span class="preco">R$ 13,00</span>
                         <button class="btn-pedir">Pedir</button>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="card" data-categoria="bolos" data-massa="branca">
+                <img src="img/ninhoBranco.jpg" alt="Bolo Ninho Branco">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Bolo Ninho Branco</h3>
+                    <p>Delicioso bolo de massa branca, com recheio e cobertura de ninho.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 13,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="bolos" data-massa="branca">
+                <img src="img/brigadeiroMaracuja.jpg" alt="Bolo Ninho com Maracujá">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Bolo Ninho com Maracujá</h3>
+                    <p>Ninho com MaracujáDelicioso bolo de massa branca, com recheio de maracujá e cobertura de ninho.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 13,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="bolos" data-massa="branca">
+                <img src="img/blackMeioAmargo.jpg" alt="Bolo Ninho com Morango">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Bolo Ninho com Morango</h3>
+                    <p>Delicioso bolo de massa branca, com recheio de ninho e morangos frescos e cobertura de ninho.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 13,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="bolos" data-massa="chocolate">
+                <img src="img/ninhoTrufado.jpg" alt="Bolo Ninho Trufado">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Bolo Ninho Trufado</h3>
+                    <p>Delicioso bolo de massa de chocolate, com recheio de ninho e cobertura de brigadeiro.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 13,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="bolos" data-massa="chocolate">
+                <img src="img/prestigio.jpg" alt="Bolo Prestigio">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Bolo Prestigio</h3>
+                    <p>Delicioso bolo de massa de chocolate, com recheio de prestigio e cobertura de brigadeiro.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 13,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="bolos" data-massa="redvelvet">
+                <img src="img/redVelvet.jpg" alt="Bolo Red Velvet">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Bolo Red Velvet</h3>
+                    <p>Delicioso bolo de massa de red velvet, com recheio de ninho e geleia de morango e cobertura de ninho.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 13,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="bolos" data-massa="chocolate">
+                <img src="img/suflair.jpg" alt="Bolo Suflair">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Bolo Suflair</h3>
+                    <p>Delicioso bolo de massa de chocolate, com recheio de suflair e cobertura de brigadeiro.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 13,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="cone">
+                <img src="img/cones.jpg" alt="Cone de Brigadeiro">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Cone de Brigadeiro</h3>
+                    <p>Delicioso cone trufado, recheio de brigadeiro.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 9,50</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="cone">
+                <img src="img/cones.jpg" alt="Cone de Ferreiro">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Cone de Ferreiro</h3>
+                    <p>Delicioso cone trufado, recheio de ferreiro (brigadeiro meio amargo) e camada generosa de Nutella original e bombom de Ferreiro.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 9,50</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="cone">
+                <img src="img/cones.jpg" alt="Cone de Raffaello">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Cone de Raffaello</h3>
+                    <p>Delicioso cone trufado, recheio de Raffaello (brigadeiro branco com coco e amêndoas) e bombom de Raffaello.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 9,50</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="cone">
+                <img src="img/cones.jpg" alt="Cone de Kinder">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Cone de Kinder</h3>
+                    <p>Delicioso cone trufado, recheio de Kinder (naoseikkk) e camada generosa de Nutella original e bombom de Kinder.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 9,50</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="cone">
+                <img src="img/cones.jpg" alt="Cone de Ninho com Nutella">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Cone de Ninho com Nutella</h3>
+                    <p>Delicioso cone trufado, recheio de ninho e camada generosa de Nutella original.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 9,50</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="cone">
+                <img src="img/cones.jpg" alt="Cone de Prestigio">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Cone de Prestigio</h3>
+                    <p>Delicioso cone trufado, recheio de prestigio e bombom de Prestigio.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 9,50</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="sobremesa">
+                <img src="img/bombomUva.jpg" alt="Bombom de Uva">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Bombom de Uva</h3>
+                    <p>Delicioso bombom de uva, brigadeiro meio amargo, uvas frescas e brigadeiro de ninho.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 14,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="sobremesa">
+                <img src="img/brownieMaracuja.jpg" alt="Brownie no pote de Maracujá">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Brownie no pote de Maracujá</h3>
+                    <p>Delicioso brownie em pedaços, recheio de maracujá e brigadeiro meio amargo.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 14,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="sobremesa">
+                <img src="img/brownieDoceLeite.jpg" alt="Brownie no pote de Doce de Leite">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Brownie no pote de Doce de Leite</h3>
+                    <p>Delicioso brownie em pedaços, recheio generoso de doce de leite puro.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 14,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="sobremesa">
+                <img src="img/brownie2amores.jpg" alt="Brownie no pote de Dois Amores">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Brownie no pote de Dois Amores</h3>
+                    <p>Delicioso brownie em pedaços, recheio de ninho e brigadeiro meio amargo.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 14,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="brownie">
+                <img src="img/.jpg" alt="Sanduíche de Brownie de Nutella">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Sanduíche de Brownie de Nutella</h3>
+                    <p>Delicioso sanduíche de brownie recheado com Nutella original.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 7,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="brownie">
+                <img src="img/.jpg" alt="Sanduíche de Brownie de Ninho">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Sanduíche de Brownie de Ninho</h3>
+                    <p>Delicioso sanduíche de brownie recheado com ninho.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 7,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="brownie">
+                <img src="img/.jpg" alt="Sanduíche de Brownie de Brigadeiro">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Sanduíche de Brownie de Brigadeiro</h3>
+                    <p>Delicioso sanduíche de brownie recheado com brigadeiro.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 7,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="brownie">
+                <img src="img/.jpg" alt="Sanduíche de Brownie de Doce de Leite">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Sanduíche de Brownie de Doce de Leite</h3>
+                    <p>Delicioso sanduíche de brownie recheado com doce de leite.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 7,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card" data-categoria="brownie">
+                <img src="img/.jpg" alt="Sanduíche de Brownie de Ovomaltine">
+                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                    <span class="coracao">❤</span>
+                </button>
+                <div class="card-corpo">
+                    <h3>Sanduíche de Brownie de Ovomaltine</h3>
+                    <p>Delicioso sanduíche de brownie recheado com brigadeiro de ovomaltine.</p>
+                    <div class="card-rodape">
+                        <span class="preco">R$ 7,00</span>
+                        <button class="btn-pedir">Pedir</button>
+                    </div>
+                </div>
+            </div>
     </section>
     <section id="avaliacao" class="container">
         <h2>Avaliações dos nossos clientes</h2>

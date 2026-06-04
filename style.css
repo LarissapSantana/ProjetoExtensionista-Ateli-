@@ -191,7 +191,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
 
 .card img { 
     width: 100%;
-    height: 200px;
+    height: 300px;
     object-fit: cover;
 }
 
