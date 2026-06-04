@@ -1,9 +1,67 @@
-import { db } from './firebase-config.js';
+// 1. PRIMEIRO importamos as funções do SDK do Firebase
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// 2. DEPOIS importamos as configurações do seu arquivo local
+import { db } from './firebase-config.js';
+
+// 3. AGORA inicializamos o Auth garantindo que ele pegue a instância correta
 const auth = getAuth();
 
-/*CADASTRO CLIENTE*/
+// --- FUNÇÃO PARA ALTERNAR VISUALMENTE ENTRE LOGIN E CADASTRO ---
+window.trocarAba = function(aba) {
+    const formLogin = document.getElementById('form-login');
+    const formRegistro = document.getElementById('form-registro');
+    const btnLogin = document.getElementById('btn-login-aba');
+    const btnRegistro = document.getElementById('btn-registro-aba');
+
+    if (!formLogin || !formRegistro || !btnLogin || !btnRegistro) return;
+
+    if (aba === 'login') {
+        formLogin.classList.add('active');
+        formRegistro.classList.remove('active');
+        btnLogin.classList.add('active');
+        btnRegistro.classList.remove('active');
+    } else if (aba === 'registro') {
+        formRegistro.classList.add('active');
+        formLogin.classList.remove('active');
+        btnRegistro.classList.add('active');
+        btnLogin.classList.remove('active');
+    }
+};
+
+/* --- VALIDAÇÃO E EVENTO DE LOGIN --- */
+const formLogin = document.getElementById('form-login');
+if (formLogin) {
+    formLogin.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email-login').value;
+        const senha = document.getElementById('senha-login').value;
+
+        try {
+            // Tenta realizar o login no Firebase
+            const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+            alert("Login realizado com sucesso! Bem-vindo(a).");
+            
+            // Redireciona ou atualiza a página aqui se necessário
+            // window.location.href = "pagina-interna.html";
+
+        } catch (error) {
+            console.error("Erro ao logar:", error.code);
+            
+            // Se o e-mail não existir no sistema, avisa e joga para o cadastro
+            if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+                alert("Usuário não encontrado ou senha incorreta! Se você ainda não tem conta, faça seu cadastro.");
+                trocarAba('registro'); // Move o usuário automaticamente para a aba de cadastro
+            } else {
+                alert("Erro ao entrar: " + error.message);
+            }
+        }
+    });
+}
+
+/* --- CADASTRO CLIENTE */
 const formRegistro = document.getElementById('form-registro');
 if (formRegistro) {
     formRegistro.addEventListener('submit', async (e) => {
@@ -28,9 +86,9 @@ if (formRegistro) {
                 dataCadastro: new Date()
             });
 
-            alert("Cadastro realizado com sucesso!");
+            alert("Cadastro realizado com sucesso! Agora você pode fazer o login.");
             formRegistro.reset();
-            trocarAba('login'); 
+            trocarAba('login'); // Retorna o usuário para a tela de login após cadastrar
 
         } catch (error) {
             console.error("Erro ao cadastrar:", error.code);
@@ -44,6 +102,9 @@ if (formRegistro) {
         }
     });
 }
+
+
+
 window.filtrarProdutos = function() {
     const buscaNome = document.getElementById('buscaNome');
     const filtroCategoria = document.getElementById('filtroCategoria');
@@ -80,3 +141,4 @@ window.filtrarProdutos = function() {
 window.toggleFavorito = (id) => {
     console.log(`Produto favoritado: ${id}`);
 };
+

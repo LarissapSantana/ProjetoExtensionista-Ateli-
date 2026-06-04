@@ -311,6 +311,8 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
 }
 
 .aba-btn {
+    border-bottom: none;
+    transition: background 0.3s;
     flex: 1;
     padding: 15px;
     border: none;
@@ -318,21 +320,21 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     background: #f0e6f2;
     color: #8d279b;
     font-weight: bold;
-    transition: 0.3s;
 }
 
 .aba-btn.active {
-    background: white;
-    border-bottom: 3px solid #8d279b;
+    background-color: #fff;
+    font-weight: bold;
+    border-top: 3px solid #8d279b;
 }
 
 .form-acesso {
-    display: none;
+    display: none ;
     padding: 30px;
 }
 
 .form-acesso.active {
-    display: block; 
+    display: block ; 
 }
 
 .tipo-perfil {

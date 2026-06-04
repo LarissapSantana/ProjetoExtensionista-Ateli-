@@ -319,7 +319,7 @@
                 </div>
             </div>
             <div class="card" data-categoria="sobremesa">
-                <img src="img/bombomUva.jpg" alt="Bombom de Uva">
+                <img src="img/bombomUva.jpeg" alt="Bombom de Uva">
                 <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
                     <span class="coracao">❤</span>
                 </button>
@@ -510,14 +510,14 @@
     <section id="cadastro" class="container">
         <div class="acesso-box">
             <div class="abas-container">
-                <button class="aba-btn active" id="btn-login-aba">Login</button>
-                <button class="aba-btn" id="btn-registro-aba">Cadastrar</button>
+                <button class="aba-btn active" id="btn-login-aba" onclick="window.trocarAba('login')">Login</button>
+                <button class="aba-btn" id="btn-registro-aba" onclick="window.trocarAba('registro')">Cadastrar</button>
             </div>
 
             <form id="form-login" class="form-acesso active">
                 <h2>Acesse sua conta</h2>
-                <input type="email" placeholder="E-mail" required>
-                <input type="password" placeholder="Senha" required>
+                <input type="email" id="email-login" placeholder="E-mail" required>
+                <input type="password" id="senha-login" placeholder="Senha" required>
                 <button type="submit" class="btn-logincliente">Entrar</button>
             </form>
 
@@ -569,7 +569,8 @@
                     Ateliê Jenifer Gama
                 </h3>
                 <p>Doces artesanais feitos com afeto.</p>
-                <p><strong>Horário de Encomendas:</strong><br> Seg a Sex: 09h às 18h</p>
+                <p><strong>Horário de Encomendas:</strong><br> Seg a Sex: 07h às 18h</p>
+                <p><strong>Horário de Retirada:</strong><br> Ter Sex: 07h às 18h</p>
 
                 <a href="login-adm.html" class="link-admin" onclick="trocarAba('login')">Acesso Administrativo</a>
             </div>
