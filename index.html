@@ -56,9 +56,9 @@
                 <option value="brownie">Sanduíches de Brownie</option>
             </select>
 
-            <select id="filtroCategoria" onchange="filtrarMassas()">
-                <option value="todos">Todas as Categorias</option>
-                <option value="brancas">Brancas</option>
+            <select id="filtroMassa" onchange="filtrarProdutos()">
+                <option value="todos">Todas as Massas</option>
+                <option value="branca">Brancas</option>
                 <option value="black">Black</option>
                 <option value="chocolate">Chocolate</option>
                 <option value="redvelvet">Red Velvet</option>
@@ -151,13 +151,13 @@
                 </div>
             </div>
             <div class="card" data-categoria="bolos" data-massa="branca">
-                <img src="img/brigadeiroMaracuja.jpg" alt="Bolo Ninho com Maracujá">
+                <img src="img/ninhoMaracuja.jpg" alt="Bolo Ninho com Maracujá">
                 <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
                     <h3>Bolo Ninho com Maracujá</h3>
-                    <p>Ninho com MaracujáDelicioso bolo de massa branca, com recheio de maracujá e cobertura de ninho.</p>
+                    <p>Delicioso bolo de massa branca, com recheio de maracujá e cobertura de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
                         <button class="btn-pedir">Pedir</button>
@@ -165,7 +165,7 @@
                 </div>
             </div>
             <div class="card" data-categoria="bolos" data-massa="branca">
-                <img src="img/blackMeioAmargo.jpg" alt="Bolo Ninho com Morango">
+                <img src="img/ninhoMorango.jpg" alt="Bolo Ninho com Morango">
                 <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
                     <span class="coracao">❤</span>
                 </button>
@@ -444,6 +444,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </section>
     <section id="avaliacao" class="container">
         <h2>Avaliações dos nossos clientes</h2>
@@ -596,6 +597,6 @@
         </div>
     </footer>
     <script type="module" src="firebase-config.js"></script>
-    <script type="module" src="script.js"></script>
+    <script type="module" src="./script.js"></script>
 </body>
 </html>

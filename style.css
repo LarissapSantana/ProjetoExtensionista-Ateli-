@@ -102,7 +102,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     flex-wrap: wrap;
 }
 
-#buscaNome, #filtroCategoria, #filtroPreco {
+#buscaNome, #filtroCategoria, #filtroMassa {
     padding: 10px 15px;
     border: 1px solid var(--primaria);
     border-radius: 25px;

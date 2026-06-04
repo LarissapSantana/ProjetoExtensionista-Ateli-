@@ -44,40 +44,39 @@ if (formRegistro) {
         }
     });
 }
+window.filtrarProdutos = function() {
+    const buscaNome = document.getElementById('buscaNome');
+    const filtroCategoria = document.getElementById('filtroCategoria');
+    const filtroMassa = document.getElementById('filtroMassa');
+    
+    // Selecionamos os CARDS dentro da seção de produtos
+    const cards = document.querySelectorAll('#produtos .card');
 
-document.getElementById('btn-login-aba').addEventListener('click', () => trocarAba('login'));
-document.getElementById('btn-registro-aba').addEventListener('click', () => trocarAba('registro'));
+    if (!buscaNome || !filtroCategoria || !filtroMassa) return;
 
-function trocarAba(aba) {
-    const formLogin = document.getElementById('form-login');
-    const formRegistro = document.getElementById('form-registro');
-    const btnLogin = document.getElementById('btn-login-aba');
-    const btnRegistro = document.getElementById('btn-registro-aba');
+    const termoBusca = buscaNome.value.toLowerCase().trim();
+    const categoriaSelecionada = filtroCategoria.value;
+    const massaSelecionada = filtroMassa.value;
 
-    if (aba === 'login') {
-        formLogin.classList.add('active');
-        formRegistro.classList.remove('active');
-        btnLogin.classList.add('active');
-        btnRegistro.classList.remove('active');
-    } else {
-        formLogin.classList.remove('active');
-        formRegistro.classList.add('active');
-        btnLogin.classList.remove('active');
-        btnRegistro.classList.add('active');
-    }
-}
-const radiosPerfil = document.querySelectorAll('input[name="perfil"]');
-const inputDoc = document.getElementById('doc-input');
+    cards.forEach(card => {
+        const categoriaCard = card.getAttribute('data-categoria') || '';
+        const massaCard = card.getAttribute('data-massa') || '';
+        const tituloCard = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
 
-radiosPerfil.forEach(radio => {
-    radio.addEventListener('change', (e) => {
-        const perfil = e.target.value; // Pega o valor do rádio clicado ('cpf' ou 'cnpj')
-        
-        inputDoc.value = ""; // Limpa o campo para evitar confusão
-        if (perfil === 'cpf') {
-            inputDoc.placeholder = "000.000.000-00";
+        // Validações
+        const bateCategoria = (categoriaSelecionada === 'todos' || categoriaCard === categoriaSelecionada);
+        const bateMassa = (massaSelecionada === 'todos' || massaCard === massaSelecionada);
+        const bateNome = tituloCard.includes(termoBusca);
+
+        // Força o sumisso do flexbox e grid com o important
+        if (bateCategoria && bateMassa && bateNome) {
+            card.style.setProperty('display', 'block', 'important');
         } else {
-            inputDoc.placeholder = "00.000.000/0001-00";
+            card.style.setProperty('display', 'none', 'important');
         }
     });
-});
+};
+
+window.toggleFavorito = (id) => {
+    console.log(`Produto favoritado: ${id}`);
+};
