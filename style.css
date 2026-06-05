@@ -246,6 +246,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
 }
 
 /*BOTÃO FAVORITAR*/
+/* BOTÃO FAVORITAR - CORREÇÃO */
 .card {
     position: relative;
 }
@@ -254,7 +255,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     position: absolute;
     top: 15px;
     right: 15px;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     border: none;
     border-radius: 50%;
     width: 35px;
@@ -265,24 +266,25 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     justify-content: center;
     transition: transform 0.2s, background 0.3s;
     z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .btn-favoritar:hover {
     transform: scale(1.1);
 }
 
+/* Cor padrão do coração desmarcado (Cinza) */
 .coracao {
     color: #a2a2a2;
     font-size: 20px;
-    transition: color 0.3s;
+    transition: color 0.3s, transform 0.2s;
+    user-select: none;
 }
 
-.card.favoritado .coracao {
+/* Cor quando o coração receber a classe .favoritado via JS */
+.coracao.favoritado {
     color: #fb3f3f;
-}
-
-.card.favoritado .btn-favoritar {
-    background: white;
+    transform: scale(1.15);
 }
 
 /*CADASTRO CLIENTE*/
@@ -695,3 +697,4 @@ tr:hover {
     padding-top: 15px;
     font-size: 1.2rem;
 }
+

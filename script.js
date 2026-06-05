@@ -138,53 +138,40 @@ window.filtrarProdutos = function() {
 };
 
 // --- SISTEMA DE FAVORITOS INTEGRADO AO FIREBASE ---
+// Altere ou verifique se a assinatura da função está capturando o element e o produtoId:
 window.toggleFavorito = async function(element, produtoId) {
     const usuarioLogado = auth.currentUser;
 
-    // 1. Bloqueia a ação se o cliente não estiver logado
     if (!usuarioLogado) {
         alert("Você precisa estar logado para favoritar um produto!");
-        
-        // Rola a página suavemente até o formulário de login
         document.getElementById('cadastro')?.scrollIntoView({ behavior: 'smooth' });
-        
-        // Abre a aba de login automaticamente
         if (typeof window.trocarAba === 'function') {
             window.trocarAba('login');
         }
         return;
     }
 
-    // 2. Captura o ícone de coração dentro do botão que foi clicado
-    const iconeCoracao = element.querySelector('i') || element;
-    
-    // Cria a referência do documento dentro do Firestore: usuarios -> ID_DO_USER -> favoritos -> ID_DO_DOCE
+    // Captura o span/i de coração interno
+    const iconeCoracao = element.querySelector('.coracao') || element;
     const favoritoRef = doc(db, "usuarios", usuarioLogado.uid, "favoritos", produtoId);
 
     try {
-        // Se o coração já está preenchido (fa-solid), remove do banco (Desfavoritar)
-        if (iconeCoracao.classList.contains('fa-solid')) {
+        // Se já tem a classe 'favoritado', remove
+        if (iconeCoracao.classList.contains('favoritado')) {
             await deleteDoc(favoritoRef);
-            
-            // Muda o visual para coração vazio
-            iconeCoracao.classList.remove('fa-solid', 'favoritado');
-            iconeCoracao.classList.add('fa-regular');
+            iconeCoracao.classList.remove('favoritado');
             console.log(`Removido dos favoritos: ${produtoId}`);
         } else {
-            // Se o coração está vazio (fa-regular), salva no banco (Favoritar)
+            // Se não tem, adiciona
             await setDoc(favoritoRef, {
                 idProduto: produtoId,
                 adicionadoEm: new Date()
             });
-
-            // Muda o visual para coração preenchido
-            iconeCoracao.classList.remove('fa-regular');
-            iconeCoracao.classList.add('fa-solid', 'favoritado');
+            iconeCoracao.classList.add('favoritado');
             console.log(`Adicionado aos favoritos: ${produtoId}`);
         }
     } catch (erro) {
         console.error("Erro ao salvar favorito:", erro);
-        alert("Não foi possível salvar nos favoritos. Verifique sua conexão.");
+        alert("Não foi possível salvar nos favoritos.");
     }
 };
-

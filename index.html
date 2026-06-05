@@ -68,7 +68,7 @@
         <div class="coluna-prod">
             <div class="card" data-categoria="bolos" data-massa="black">
                 <img src="img/blackMeioAmargo.jpg" alt="Bolo Black Meio Amargo">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-black-meio-amargo')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -82,7 +82,7 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="chocolate">
                 <img src="img/brigadeiroMaracuja.jpg" alt="Bolo Brigadeiro com Maracujá">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-brigadeiro-maracuja')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -96,7 +96,7 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="branca">
                 <img src="img/doceLeiteAmeixa.jpg" alt="Bolo Doce de Leite com Ameixa">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-doce-leite-ameixa')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -110,7 +110,7 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="branca">
                 <img src="img/doceLeiteCoco.jpg" alt="Bolo Doce de Leite com Coco">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-doce-leite-coco')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -124,12 +124,12 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="branca">
                 <img src="img/ninhoAbacaxi.jpg" alt="Bolo Ninho com Abacaxi">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-ninho-abacaxi')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
                     <h3>Bolo Ninho com Abacaxi</h3>
-                    <p>Delicioso bolo de massa branca, com recheio de ninho e abacaxi caramelizado e cobertura de ninho.</p>
+                    <p>Delicioso bolo de massa branca, com recheio de ninho e compota de cabacaxi e cobertura de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
                         <button class="btn-pedir">Pedir</button>
@@ -138,7 +138,7 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="branca">
                 <img src="img/ninhoBranco.jpg" alt="Bolo Ninho Branco">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-ninho-abacaxi')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -152,7 +152,7 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="branca">
                 <img src="img/ninhoMaracuja.jpg" alt="Bolo Ninho com Maracujá">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this'bolo-ninho-maracuja')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -166,7 +166,7 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="branca">
                 <img src="img/ninhoMorango.jpg" alt="Bolo Ninho com Morango">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-ninho-morango')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -180,7 +180,7 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="chocolate">
                 <img src="img/ninhoTrufado.jpg" alt="Bolo Ninho Trufado">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-ninho-trufado')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -194,7 +194,7 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="chocolate">
                 <img src="img/prestigio.jpg" alt="Bolo Prestigio">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-prestigio')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -208,7 +208,7 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="redvelvet">
                 <img src="img/redVelvet.jpg" alt="Bolo Red Velvet">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-red-velvet')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -222,7 +222,7 @@
             </div>
             <div class="card" data-categoria="bolos" data-massa="chocolate">
                 <img src="img/suflair.jpg" alt="Bolo Suflair">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-suflair')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -236,7 +236,7 @@
             </div>
             <div class="card" data-categoria="cone">
                 <img src="img/cones.jpg" alt="Cone de Brigadeiro">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-brigadeiro')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -250,7 +250,7 @@
             </div>
             <div class="card" data-categoria="cone">
                 <img src="img/cones.jpg" alt="Cone de Ferreiro">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'cone-ferreiro')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -264,7 +264,7 @@
             </div>
             <div class="card" data-categoria="cone">
                 <img src="img/cones.jpg" alt="Cone de Raffaello">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'cone-raffaello')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -278,7 +278,7 @@
             </div>
             <div class="card" data-categoria="cone">
                 <img src="img/cones.jpg" alt="Cone de Kinder">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'cone-kinder')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -292,7 +292,7 @@
             </div>
             <div class="card" data-categoria="cone">
                 <img src="img/cones.jpg" alt="Cone de Ninho com Nutella">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'cone-ninho-nutella')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -306,7 +306,7 @@
             </div>
             <div class="card" data-categoria="cone">
                 <img src="img/cones.jpg" alt="Cone de Prestigio">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'cone-prestigio')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -320,7 +320,7 @@
             </div>
             <div class="card" data-categoria="sobremesa">
                 <img src="img/bombomUva.jpeg" alt="Bombom de Uva">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bombom-uva')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -334,7 +334,7 @@
             </div>
             <div class="card" data-categoria="sobremesa">
                 <img src="img/brownieMaracuja.jpg" alt="Brownie no pote de Maracujá">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-pote-maracuja')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -348,7 +348,7 @@
             </div>
             <div class="card" data-categoria="sobremesa">
                 <img src="img/brownieDoceLeite.jpg" alt="Brownie no pote de Doce de Leite">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-pote-doce-leite')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -362,7 +362,7 @@
             </div>
             <div class="card" data-categoria="sobremesa">
                 <img src="img/brownie2amores.jpg" alt="Brownie no pote de Dois Amores">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-pote-2amores')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -376,7 +376,7 @@
             </div>
             <div class="card" data-categoria="brownie">
                 <img src="img/.jpg" alt="Sanduíche de Brownie de Nutella">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-nutella')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -390,7 +390,7 @@
             </div>
             <div class="card" data-categoria="brownie">
                 <img src="img/.jpg" alt="Sanduíche de Brownie de Ninho">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-ninho')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -404,7 +404,7 @@
             </div>
             <div class="card" data-categoria="brownie">
                 <img src="img/.jpg" alt="Sanduíche de Brownie de Brigadeiro">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-brigadeiro')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -418,7 +418,7 @@
             </div>
             <div class="card" data-categoria="brownie">
                 <img src="img/.jpg" alt="Sanduíche de Brownie de Doce de Leite">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-doce-leite')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -432,7 +432,7 @@
             </div>
             <div class="card" data-categoria="brownie">
                 <img src="img/.jpg" alt="Sanduíche de Brownie de Ovomaltine">
-                <button class="btn-favoritar" onclick="toggleFavorito('bolo-01')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-ovomaltine')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -569,8 +569,8 @@
                     Ateliê Jenifer Gama
                 </h3>
                 <p>Doces artesanais feitos com carinho e dedicação!</p>
-                <p><strong>Horário de Encomendas:</strong><br> Seg a Sex: 07h às 18h</p>
-                <p><strong>Horário de Retirada:</strong><br> Ter, Qui e Sex: a partir das 16h</p>
+                <p><strong>Horário de Encomendas:</strong><br> Seg, Qua e Qui: até ás 13h</p>
+                <p><strong>Horário de Retirada:</strong><br> Ter, Qui e Sex: a partir das 16h45</p>
 
                 <a href="login-adm.html" class="link-admin" onclick="trocarAba('login')">Acesso Administrativo</a>
             </div>
