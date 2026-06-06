@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="stylesheet" href="style.css">
+    <title>Meu Carrinho - Ateliê Jenifer Gama</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo Ateliê Jenifer Gama">
+                <span>Ateliê Jenifer Gama Confeitaria</span>
+            </div>
+            <ul>
+                <li><a href="index.html#inicio">Início</a></li>
+                <li><a href="index.html#produtos">Voltar aos Produtos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container" style="margin-top: 40px; min-height: 60vh;">
+        <div id="carrinho-vazio" style="display: none; text-align: center; padding: 40px 20px;">
+            <h2 style="color: #333; margin-bottom: 15px;">Seu carrinho está vazio! 🧁</h2>
+            <p style="color: #666; margin-bottom: 30px;">Você ainda não adicionou nenhum doce irresistível ao seu pedido.</p>
+            <a href="index.html#produtos" class="btn" style="display: inline-block; text-decoration: none;">Ver Nossos Produtos</a>
+        </div>
+
+        <div id="carrinho-com-itens">
+            <h1 style="color: var(--secundaria); margin-bottom: 25px; border-bottom: 2px solid var(--primaria); padding-bottom: 10px;">
+                Resumo do seu Pedido
+            </h1>
+
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                <div id="lista-produtos-carrinho" style="background-color: var(--branco); padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    </div>
+
+                <div style="background-color: var(--branco); padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <h3 style="color: var(--secundaria); margin-bottom: 15px;">Forma de Pagamento</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px;">
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                            <input type="radio" name="pagamento" value="Pix" checked> Pix (Aprovação Imediata)
+                        </label>
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                            <input type="radio" name="pagamento" value="Cartao_Credito"> Cartão de Crédito
+                        </label>
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                            <input type="radio" name="pagamento" value="Cartao_Debito"> Cartão de Débito
+                        </label>
+                    </div>
+
+                    <h3 style="color: var(--secundaria); margin-bottom: 15px;">Descrição Opcional / Observações</h3>
+                    <textarea id="observacoes-pedido" placeholder="Ex: Adicionar tag de aniversário, observações sobre a entrega, restrições alimentares, etc..." 
+                              style="width: 100%; min-height: 100px; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: inherit; margin-bottom: 25px; resize: vertical; box-sizing: border-box;"></textarea>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-top: 1px solid #eee; margin-bottom: 20px;">
+                        <span style="font-size: 1.2rem; font-weight: bold; color: var(--texto-escuro);">Valor Total Geral:</span>
+                        <strong style="font-size: 1.5rem; color: var(--secundaria);">R$ <span id="total-carrinho-pagina">0,00</span></strong>
+                    </div>
+
+                    <button onclick="enviarPedidoFinal()" class="btn-cadastro" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                        Confirmar e Enviar Pedido
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="margin-top: 50px;">
+        <div class="copyright">
+            <p>© 2026 Ateliê Jenifer Gama Confeitaria</p>
+        </div>
+    </footer>
+
+    <script>
+        function obterItens() {
+            return JSON.parse(localStorage.getItem('carrinho_atelie')) || [];
+        }
+
+        function renderizarPaginaCarrinho() {
+            const itens = obterItens();
+            const boxVazio = document.getElementById('carrinho-vazio');
+            const boxComItens = document.getElementById('carrinho-com-itens');
+            const listaContainer = document.getElementById('lista-produtos-carrinho');
+            const totalSpan = document.getElementById('total-carrinho-pagina');
+
+            if (itens.length === 0) {
+                boxVazio.style.display = 'block';
+                boxComItens.style.display = 'none';
+                return;
+            }
+
+            boxVazio.style.display = 'none';
+            boxComItens.style.display = 'block';
+            listaContainer.innerHTML = '';
+            let totalGeral = 0;
+
+            itens.forEach((item, index) => {
+                const subtotal = item.preco * item.quantidade;
+                totalGeral += subtotal;
+
+                const itemRow = document.createElement('div');
+                itemRow.style.cssText = "display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid #eee;";
+                if(index === itens.length - 1) itemRow.style.borderBottom = 'none';
+
+                itemRow.innerHTML = `
+                    <div>
+                        <h4 style="color: #4a1c40; font-size: 1.1rem; margin-bottom: 4px;">${item.nome}</h4>
+                        <span style="color: #666; font-size: 0.9rem;">${item.quantidade}x R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <span style="font-weight: bold; color: var(--secundaria); font-size: 1.1rem;">R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
+                        <button onclick="removerItemDaPagina(${index})" style="background: none; border: none; color: #fb3f3f; cursor: pointer; font-size: 1.2rem;">🗑</button>
+                    </div>
+                `;
+                listaContainer.appendChild(itemRow);
+            });
+
+            totalSpan.textContent = totalGeral.toFixed(2).replace('.', ',');
+        }
+
+        window.removerItemDaPagina = function(index) {
+            let itens = obterItens();
+            itens.splice(index, 1);
+            localStorage.setItem('carrinho_atelie', JSON.stringify(itens));
+            renderizarPaginaCarrinho();
+        };
+
+        window.enviarPedidoFinal = function() {
+            const formaPagamento = document.querySelector('input[name="pagamento"]:checked').value;
+            const obs = document.getElementById('observacoes-pedido').value;
+            
+            alert(`Pedido simulado com sucesso!\nForma de Pagamento: ${formaPagamento}\nObservações: ${obs || "Nenhuma"}`);
+            
+            // Limpa o carrinho após finalizar o pedido
+            localStorage.removeItem('carrinho_atelie');
+            renderizarPaginaCarrinho();
+        };
+
+        // Renderiza as informações assim que a página abre
+        document.addEventListener('DOMContentLoaded', renderizarPaginaCarrinho);
+    </script>
+</body>
+</html>

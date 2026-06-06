@@ -63,6 +63,10 @@
                 <option value="chocolate">Chocolate</option>
                 <option value="redvelvet">Red Velvet</option>
             </select>
+             <select id="filtroFavoritos" onchange="filtrarProdutos()">
+                <option value="todos">Todos os Produtos</option>
+                <option value="favoritos">Meus Favoritos ❤</option>
+            </select>
         </div>
 
         <div class="coluna-prod">
@@ -76,7 +80,18 @@
                     <p>Delicioso bolo de massa black, com recheio de suflair e cobertura de chocolate meio amargo.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Black Meio Amargo', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Black Meio Amargo', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,7 +105,18 @@
                     <p>Delicioso bolo de massa de chocolate, com recheio de maracujá e cobertura de brigadeiro.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Brigadeiro com Maracujá', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Brigadeiro com Maracujá', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -104,7 +130,18 @@
                     <p>Delicioso bolo de massa branca, com recheio de doce de leite com ameixa cozida e cobertura de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Doce de Leite com Ameixa', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Doce de Leite com Ameixa', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,7 +155,18 @@
                     <p>Delicioso bolo de massa branca, com recheio de doce de leite com coco queimado e cobertura de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Doce de Leite com Coco', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Doce de Leite com Coco', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,13 +180,24 @@
                     <p>Delicioso bolo de massa branca, com recheio de ninho e compota de cabacaxi e cobertura de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Ninho com Abacaxi', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Ninho com Abacaxi', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="bolos" data-massa="branca">
                 <img src="img/ninhoBranco.jpg" alt="Bolo Ninho Branco">
-                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-ninho-abacaxi')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-ninho-branco')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -146,13 +205,24 @@
                     <p>Delicioso bolo de massa branca, com recheio e cobertura de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Ninho Branco', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Ninho Branco', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="bolos" data-massa="branca">
                 <img src="img/ninhoMaracuja.jpg" alt="Bolo Ninho com Maracujá">
-                <button class="btn-favoritar" onclick="toggleFavorito(this'bolo-ninho-maracuja')">
+                <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-ninho-maracuja')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
@@ -160,7 +230,7 @@
                     <p>Delicioso bolo de massa branca, com recheio de maracujá e cobertura de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="transformarCard('Bolo Ninho com Maracujá', 13.00)">Pedir</button>
                     </div>
                 </div>
             </div>
@@ -174,7 +244,18 @@
                     <p>Delicioso bolo de massa branca, com recheio de ninho e morangos frescos e cobertura de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Ninho com Morango', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Ninho com Morango', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -188,7 +269,18 @@
                     <p>Delicioso bolo de massa de chocolate, com recheio de ninho e cobertura de brigadeiro.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Ninho Trufado', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Ninho Trufado', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -202,7 +294,18 @@
                     <p>Delicioso bolo de massa de chocolate, com recheio de prestigio e cobertura de brigadeiro.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Prestigio', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Prestigio', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -216,7 +319,18 @@
                     <p>Delicioso bolo de massa de red velvet, com recheio de ninho e geleia de morango e cobertura de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Red Velvet', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Red Velvet', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -230,12 +344,23 @@
                     <p>Delicioso bolo de massa de chocolate, com recheio de suflair e cobertura de brigadeiro.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Suflair', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Suflair', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="cone">
-                <img src="img/cones.jpg" alt="Cone de Brigadeiro">
+                <img src="img/coneBrigadeiro.jpg" alt="Cone de Brigadeiro">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'bolo-brigadeiro')">
                     <span class="coracao">❤</span>
                 </button>
@@ -244,12 +369,23 @@
                     <p>Delicioso cone trufado, recheio de brigadeiro.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 9,50</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Cone de Brigadeiro', 9.50)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Cone de Brigadeiro', 9.50)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="cone">
-                <img src="img/cones.jpg" alt="Cone de Ferreiro">
+                <img src="img/ferreiro.jpeg" alt="Cone de Ferreiro">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'cone-ferreiro')">
                     <span class="coracao">❤</span>
                 </button>
@@ -258,12 +394,23 @@
                     <p>Delicioso cone trufado, recheio de ferreiro (brigadeiro meio amargo) e camada generosa de Nutella original e bombom de Ferreiro.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 9,50</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Cone de Ferreiro', 9.50)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Cone de Ferreiro', 9.50)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="cone">
-                <img src="img/cones.jpg" alt="Cone de Raffaello">
+                <img src="img/raffaello.jpeg" alt="Cone de Raffaello">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'cone-raffaello')">
                     <span class="coracao">❤</span>
                 </button>
@@ -272,26 +419,48 @@
                     <p>Delicioso cone trufado, recheio de Raffaello (brigadeiro branco com coco e amêndoas) e bombom de Raffaello.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 9,50</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Cone de Raffaello', 9.50)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Cone de Raffaello', 9.50)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="cone">
-                <img src="img/cones.jpg" alt="Cone de Kinder">
+                <img src="img/kinder.jpg" alt="Cone de Kinder">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'cone-kinder')">
                     <span class="coracao">❤</span>
                 </button>
                 <div class="card-corpo">
                     <h3>Cone de Kinder</h3>
-                    <p>Delicioso cone trufado, recheio de Kinder (naoseikkk) e camada generosa de Nutella original e bombom de Kinder.</p>
+                    <p>Delicioso cone trufado, recheio de Kinder e camada generosa de Nutella original e bombom de Kinder.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 9,50</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Cone de Kinder', 9.50)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Cone de Kinder', 9.50)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="cone">
-                <img src="img/cones.jpg" alt="Cone de Ninho com Nutella">
+                <img src="img/ninhoCnutella.jpg" alt="Cone de Ninho com Nutella">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'cone-ninho-nutella')">
                     <span class="coracao">❤</span>
                 </button>
@@ -300,12 +469,23 @@
                     <p>Delicioso cone trufado, recheio de ninho e camada generosa de Nutella original.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 9,50</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Cone de Ninho com Nutella', 9.50)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Cone de Ninho com Nutella', 9.50)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="cone">
-                <img src="img/cones.jpg" alt="Cone de Prestigio">
+                <img src="img/conePrestigio.jpg" alt="Cone de Prestigio">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'cone-prestigio')">
                     <span class="coracao">❤</span>
                 </button>
@@ -314,7 +494,18 @@
                     <p>Delicioso cone trufado, recheio de prestigio e bombom de Prestigio.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 9,50</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Cone de Prestigio', 9.50)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Cone de Prestigio', 9.50)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -328,7 +519,18 @@
                     <p>Delicioso bombom de uva, brigadeiro meio amargo, uvas frescas e brigadeiro de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 14,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bombom de Uva', 14.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bombom de Uva', 14.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -342,7 +544,18 @@
                     <p>Delicioso brownie em pedaços, recheio de maracujá e brigadeiro meio amargo.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 14,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Brownie no Pote de Maracujá', 14.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Brownie no Pote de Maracujá', 14.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -356,7 +569,18 @@
                     <p>Delicioso brownie em pedaços, recheio generoso de doce de leite puro.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 14,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                       <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                       <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Brownie no Pote de Doce de Leite', 14.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Brownie no Pote de Doce de Leite', 14.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -370,12 +594,23 @@
                     <p>Delicioso brownie em pedaços, recheio de ninho e brigadeiro meio amargo.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 14,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                         <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                         <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Brownie no Pote de Dois Amores', 14.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Brownie no Pote de Dois Amores', 14.00)">Comprar Já</button>
+                            </div>
+                         </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="brownie">
-                <img src="img/.jpg" alt="Sanduíche de Brownie de Nutella">
+                <img src="img/bNutella.jpg" alt="Sanduíche de Brownie de Nutella">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-nutella')">
                     <span class="coracao">❤</span>
                 </button>
@@ -384,12 +619,23 @@
                     <p>Delicioso sanduíche de brownie recheado com Nutella original.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 7,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Sanduíche de Brownie de Nutella', 7.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Sanduíche de Brownie de Nutella', 7.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="brownie">
-                <img src="img/.jpg" alt="Sanduíche de Brownie de Ninho">
+                <img src="img/bNinho.jpg" alt="Sanduíche de Brownie de Ninho">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-ninho')">
                     <span class="coracao">❤</span>
                 </button>
@@ -398,12 +644,23 @@
                     <p>Delicioso sanduíche de brownie recheado com ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 7,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Sanduíche de Brownie de Ninho', 7.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Sanduíche de Brownie de Ninho', 7.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="brownie">
-                <img src="img/.jpg" alt="Sanduíche de Brownie de Brigadeiro">
+                <img src="img/bBrigadeiro.jpg" alt="Sanduíche de Brownie de Brigadeiro">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-brigadeiro')">
                     <span class="coracao">❤</span>
                 </button>
@@ -412,12 +669,23 @@
                     <p>Delicioso sanduíche de brownie recheado com brigadeiro.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 7,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Sanduíche de Brownie de Brigadeiro', 7.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Sanduíche de Brownie de Brigadeiro', 7.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="brownie">
-                <img src="img/.jpg" alt="Sanduíche de Brownie de Doce de Leite">
+                <img src="img/bDoceLeite.jpg" alt="Sanduíche de Brownie de Doce de Leite">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-doce-leite')">
                     <span class="coracao">❤</span>
                 </button>
@@ -426,12 +694,23 @@
                     <p>Delicioso sanduíche de brownie recheado com doce de leite.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 7,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Sanduíche de Brownie de Doce de Leite', 7.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Sanduíche de Brownie de Doce de Leite', 7.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card" data-categoria="brownie">
-                <img src="img/.jpg" alt="Sanduíche de Brownie de Ovomaltine">
+                <img src="img/bOvomaltine.jpg" alt="Sanduíche de Brownie de Ovomaltine">
                 <button class="btn-favoritar" onclick="toggleFavorito(this, 'brownie-ovomaltine')">
                     <span class="coracao">❤</span>
                 </button>
@@ -440,11 +719,22 @@
                     <p>Delicioso sanduíche de brownie recheado com brigadeiro de ovomaltine.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 7,00</span>
-                        <button class="btn-pedir">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <span class="card-qtd-numero">1</span>
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Sanduíche de Brownie de Ovomaltine', 7.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Sanduíche de Brownie de Ovomaltine', 7.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+    </div>
     </section>
     <section id="avaliacao" class="container">
         <h2>Avaliações dos nossos clientes</h2>
@@ -542,24 +832,6 @@
             </form>
         </div>
     </section>
-        
-    <div id="modal-carrinho" class="carrinho-modal">
-        <div class="carrinho-conteudo">
-            <span class="fechar-carrinho" onclick="fecharCarrinho()">&times;</span>
-            <h2>Meu Carrinho</h2>
-            <hr>
-            
-            <div id="itens-carrinho">
-                <p>Seu carrinho está vazio.</p>
-            </div>
-
-            <div class="carrinho-total">
-                <strong>Total: R$ <span id="total-valor">0,00</span></strong>
-            </div>
-
-            <button class="btn-comprar" style="width: 100%; margin-top: 20px;">Finalizar Pedido</button>
-        </div>
-    </div>
 
     <footer id="contato">
         <div class="footer-container">

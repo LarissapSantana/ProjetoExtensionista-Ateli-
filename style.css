@@ -76,7 +76,7 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
 .banner{
     height: 80vh; /*espaço que ocupa de tela*/
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-     url('img/atelie_fundo.jpeg') center/cover; /*deixa a imagem do fundo escura*/
+     url('img/fundoInicio.jpg') center/cover; /*deixa a imagem do fundo escura*/
     display: flex;
     align-items: center;
     justify-content: center;
@@ -216,6 +216,103 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     cursor: pointer;
 }
 
+/* ==========================================================================
+   SISTEMA DE SELEÇÃO DIRETO NO CARD
+   ========================================================================== */
+
+/* Quando o rodapé entra no modo de seleção */
+.card-rodape.selecionado {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px;
+}
+
+/* Esconde o preço e botão antigo quando selecionado */
+.card-rodape.selecionado .preco,
+.card-rodape.selecionado .btn-pedir {
+    display: none !important;
+}
+
+/* Estrutura das opções */
+.card-opcoes-quantidade {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.card-seletor-interno {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-mini-contador {
+    background-color: var(--branco);
+    border: 1px solid var(--primaria);
+    color: var(--secundaria);
+    font-size: 1rem;
+    font-weight: bold;
+    width: 28px;
+    height: 28px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-mini-contador:hover {
+    background-color: var(--claro);
+}
+
+.card-qtd-numero {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--texto-escuro);
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Botões de Decisão */
+.card-botoes-acao {
+    display: flex;
+    gap: 6px;
+    width: 100%;
+}
+
+.btn-acao-add, .btn-acao-comprar {
+    flex: 1;
+    padding: 6px 4px;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.btn-acao-add {
+    background-color: var(--secundaria);
+    color: var(--branco);
+}
+
+.btn-acao-add:hover {
+    background-color: #6a1a75;
+}
+
+.btn-acao-comprar {
+    background-color: #25D366;
+    color: var(--branco);
+}
+
+.btn-acao-comprar:hover {
+    background-color: #1ebd59;
+}
+
+.btn-acao-add:active, .btn-acao-comprar:active {
+    transform: scale(0.95);
+}
+
 @media (max-width: 768px) {
     /* Ajusta o Header para não ter altura fixa e comportar os itens empilhados */
     header {
@@ -246,7 +343,6 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
 }
 
 /*BOTÃO FAVORITAR*/
-/* BOTÃO FAVORITAR - CORREÇÃO */
 .card {
     position: relative;
 }
@@ -365,6 +461,20 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     border: 1px solid #ddd;
     border-radius: 8px;
     box-sizing: border-box;
+}
+
+#buscaNome, #filtroCategoria, #filtroMassa, #filtroFavoritos {
+    padding: 10px 15px;
+    border: 1px solid var(--primaria);
+    border-radius: 25px;
+    outline: none;
+    color: var(--secundaria);
+    font-size: 0.9rem;
+}
+
+#buscaNome:focus, #filtroCategoria:focus, #filtroMassa:focus, #filtroFavoritos:focus {
+    border-color: #8d279b;
+    outline: none;
 }
 
 /*Rodapé*/

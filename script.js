@@ -102,34 +102,38 @@ if (formRegistro) {
     });
 }
 
-
-
 window.filtrarProdutos = function() {
     const buscaNome = document.getElementById('buscaNome');
     const filtroCategoria = document.getElementById('filtroCategoria');
     const filtroMassa = document.getElementById('filtroMassa');
+    const filtroFavoritos = document.getElementById('filtroFavoritos'); // Captura o novo select
     
-    // Selecionamos os CARDS dentro da seção de produtos
     const cards = document.querySelectorAll('#produtos .card');
 
-    if (!buscaNome || !filtroCategoria || !filtroMassa) return;
+    if (!buscaNome || !filtroCategoria || !filtroMassa || !filtroFavoritos) return;
 
     const termoBusca = buscaNome.value.toLowerCase().trim();
     const categoriaSelecionada = filtroCategoria.value;
     const massaSelecionada = filtroMassa.value;
+    const apenasFavoritosAtivo = filtroFavoritos.value === 'favoritos'; // Descobre se o usuário escolheu "Meus Favoritos"
 
     cards.forEach(card => {
         const categoriaCard = card.getAttribute('data-categoria') || '';
         const massaCard = card.getAttribute('data-massa') || '';
         const tituloCard = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
+        
+        // Verifica se o ícone de coração dentro DESTE card possui a classe 'favoritado'
+        const iconeCoracao = card.querySelector('.coracao');
+        const ehFavorito = iconeCoracao ? iconeCoracao.classList.contains('favoritado') : false;
 
-        // Validações
+        // Condições de filtragem combinadas
         const bateCategoria = (categoriaSelecionada === 'todos' || categoriaCard === categoriaSelecionada);
         const bateMassa = (massaSelecionada === 'todos' || massaCard === massaSelecionada);
         const bateNome = tituloCard.includes(termoBusca);
+        const bateFavorito = (!apenasFavoritosAtivo || ehFavorito); // Se o filtro estiver desativado, mostra tudo. Se estiver ativo, só mostra se ehFavorito for true.
 
-        // Força o sumisso do flexbox e grid com o important
-        if (bateCategoria && bateMassa && bateNome) {
+        // O card só aparece se passar em absolutamente TODOS os filtros ativos simultaneamente
+        if (bateCategoria && bateMassa && bateNome && bateFavorito) {
             card.style.setProperty('display', 'block', 'important');
         } else {
             card.style.setProperty('display', 'none', 'important');
@@ -175,3 +179,112 @@ window.toggleFavorito = async function(element, produtoId) {
         alert("Não foi possível salvar nos favoritos.");
     }
 };
+
+// ==========================================================================
+// SISTEMA DE CARRINHO COM LOCALSTORAGE (INTEGRAÇÃO ENTRE PÁGINAS)
+// ==========================================================================
+
+// Função auxiliar para carregar o carrinho do LocalStorage
+function obterCarrinho() {
+    return JSON.parse(localStorage.getItem('carrinho_atelie')) || [];
+}
+
+// Função auxiliar para salvar o carrinho no LocalStorage
+function salvarCarrinho(carrinho) {
+    localStorage.setItem('carrinho_atelie', JSON.stringify(carrinho));
+    atualizarContadorMenu();
+}
+
+// 1. Abre os controles de quantidade escondidos dentro do card
+window.mostrarContadorCard = function(botaoPedir) {
+    const rodape = botaoPedir.parentElement;
+    const containerOpcoes = rodape.querySelector('.card-opcoes-quantidade');
+    
+    rodape.classList.add('selecionado');
+    if (containerOpcoes) {
+        containerOpcoes.style.display = 'flex';
+    }
+};
+
+// 2. Controla o incremento e decremento (+ e -) no card
+window.alterarQtdInterna = function(botaoContador, alteracao) {
+    const containerSeletor = botaoContador.parentElement;
+    const spanNumero = containerSeletor.querySelector('.card-qtd-numero');
+    let quantidadeAtual = parseInt(spanNumero.textContent) || 1;
+    
+    quantidadeAtual += alteracao;
+    if (quantidadeAtual < 1) quantidadeAtual = 1;
+    
+    spanNumero.textContent = quantidadeAtual;
+};
+
+// 3. AÇÃO: Botão Adicionar ao Carrinho
+window.confirmarAdicaoCarrinho = function(botaoConfirmar, nome, preco) {
+    const rodape = botaoConfirmar.closest('.card-rodape');
+    const spanNumero = rodape.querySelector('.card-qtd-numero');
+    const quantidade = parseInt(spanNumero.textContent) || 1;
+    
+    adicionarAoLocalStorage(nome, preco, quantidade);
+    alert(`"${nome}" adicionado com sucesso ao carrinho!`);
+    
+    restaurarEstadoCard(rodape, spanNumero);
+};
+
+// 4. AÇÃO: Botão Comprar Já (Adiciona e vai direto para a página do carrinho)
+window.confirmarCompraImediata = function(botaoConfirmar, nome, preco) {
+    const rodape = botaoConfirmar.closest('.card-rodape');
+    const spanNumero = rodape.querySelector('.card-qtd-numero');
+    const quantidade = parseInt(spanNumero.textContent) || 1;
+    
+    adicionarAoLocalStorage(nome, preco, quantidade);
+    restaurarEstadoCard(rodape, spanNumero);
+    
+    // Redireciona o usuário para a nova página do carrinho
+    window.location.href = 'carrinho.html';
+};
+
+// Função interna para inserir ou somar a quantidade do item no LocalStorage
+function adicionarAoLocalStorage(nome, preco, quantidade) {
+    let carrinho = obterCarrinho();
+    const produtoExistente = carrinho.find(item => item.nome === nome);
+    
+    if (produtoExistente) {
+        produtoExistente.quantidade += quantidade;
+    } else {
+        carrinho.push({ nome, preco, quantidade });
+    }
+    
+    salvarCarrinho(carrinho);
+}
+
+// Restaura o visual do card após a ação
+function restaurarEstadoCard(rodape, spanNumero) {
+    const containerOpcoes = rodape.querySelector('.card-opcoes-quantidade');
+    rodape.classList.remove('selecionado');
+    if (containerOpcoes) containerOpcoes.style.display = 'none';
+    spanNumero.textContent = "1";
+}
+
+// Atualiza o número flutuante no ícone do menu 🛒
+function atualizarContadorMenu() {
+    const contadorGlobal = document.getElementById('carrinho-contador');
+    if (!contadorGlobal) return;
+
+    const carrinho = obterCarrinho();
+    const totalItens = carrinho.reduce((acumulado, item) => acumulado + item.quantidade, 0);
+    
+    if (totalItens > 0) {
+        contadorGlobal.textContent = totalItens;
+        contadorGlobal.style.display = 'block';
+    } else {
+        contadorGlobal.style.display = 'none';
+    }
+}
+
+// Configura o link do ícone do carrinho para abrir a nova página
+window.abrirCarrinho = function() {
+    window.location.href = 'carrinho.html';
+};
+
+// Executa automaticamente ao carregar a página inicial para atualizar o ícone 🛒
+document.addEventListener('DOMContentLoaded', atualizarContadorMenu);
