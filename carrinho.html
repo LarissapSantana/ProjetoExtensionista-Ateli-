@@ -49,6 +49,9 @@
                         <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
                             <input type="radio" name="pagamento" value="Cartao_Debito"> Cartão de Débito
                         </label>
+                        <label style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                            <input type="radio" name="pagamento" value="Retirada"> Pagar na Retirada (Dinheiro/Cartão)
+                        </label>
                     </div>
 
                     <h3 style="color: var(--secundaria); margin-bottom: 15px;">Descrição Opcional / Observações</h3>
@@ -74,13 +77,21 @@
         </div>
     </footer>
 
-    <script>
-        function obterItens() {
+    <script type="module">
+        // 1. IMPORTAÇÃO SEGURA DO FIREBASE
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { db } from './firebase-config.js';
+
+        const auth = getAuth();
+
+        // 2. AS SUAS FUNÇÕES ORIGINAIS (Tornadas globais com 'window.' para os botões funcionarem)
+        window.obterItens = function() {
             return JSON.parse(localStorage.getItem('carrinho_atelie')) || [];
         }
 
-        function renderizarPaginaCarrinho() {
-            const itens = obterItens();
+        window.renderizarPaginaCarrinho = function() {
+            const itens = window.obterItens();
             const boxVazio = document.getElementById('carrinho-vazio');
             const boxComItens = document.getElementById('carrinho-com-itens');
             const listaContainer = document.getElementById('lista-produtos-carrinho');
@@ -122,25 +133,60 @@
         }
 
         window.removerItemDaPagina = function(index) {
-            let itens = obterItens();
+            let itens = window.obterItens();
             itens.splice(index, 1);
             localStorage.setItem('carrinho_atelie', JSON.stringify(itens));
-            renderizarPaginaCarrinho();
+            window.renderizarPaginaCarrinho();
         };
 
-        window.enviarPedidoFinal = function() {
+        // 3. SUA FUNÇÃO DE ENVIO ATUALIZADA PARA GRAVAR NO ADM (FIREBASE)
+        window.enviarPedidoFinal = async function() {
             const formaPagamento = document.querySelector('input[name="pagamento"]:checked').value;
             const obs = document.getElementById('observacoes-pedido').value;
+            const itens = window.obterItens();
+
+            if (itens.length === 0) {
+                alert("Seu carrinho está vazio!");
+                return;
+            }
+
+            // Captura o usuário logado (se houver) ou define um nome padrão temporário
+            const usuarioLogado = auth.currentUser;
+            const nomeCliente = usuarioLogado ? (usuarioLogado.displayName || usuarioLogado.email) : "Cliente Anónimo";
+
+            // Transforma a lista de produtos numa linha de texto resumida para a tabela do ADM
+            const produtosTexto = itens.map(item => `${item.quantidade}x ${item.nome}`).join(', ');
             
-            alert(`Pedido simulado com sucesso!\nForma de Pagamento: ${formaPagamento}\nObservações: ${obs || "Nenhuma"}`);
-            
-            // Limpa o carrinho após finalizar o pedido
-            localStorage.removeItem('carrinho_atelie');
-            renderizarPaginaCarrinho();
+            // Calcula o valor total obtido dos seus itens
+            const valorTotalCalculado = itens.reduce((total, item) => total + (item.preco * item.quantidade), 0);
+
+            try {
+                // Envia os dados estruturados para a coleção "pedidos" no Firestore
+                await addDoc(collection(db, "pedidos"), {
+                    clienteNome: nomeCliente,
+                    produtosDescricao: produtosTexto,
+                    valorTotal: valorTotalCalculado,
+                    formaPagamento: formaPagamento,
+                    observacoes: obs || "Nenhuma",
+                    status: "Pendente",
+                    dataPedido: new Date()
+                });
+
+                // Mantém o comportamento original que você criou: Alerta e limpa o carrinho
+                alert(`Pedido enviado com sucesso!\nForma de Pagamento: ${formaPagamento}\nObservações: ${obs || "Nenhuma"}`);
+                
+                localStorage.removeItem('carrinho_atelie');
+                window.renderizarPaginaCarrinho();
+
+            } catch (erro) {
+                console.error("Erro ao salvar pedido:", erro);
+                alert("Erro ao conectar com o banco de dados. O pedido foi simulado localmente.");
+            }
         };
 
         // Renderiza as informações assim que a página abre
-        document.addEventListener('DOMContentLoaded', renderizarPaginaCarrinho);
+        document.addEventListener('DOMContentLoaded', window.renderizarPaginaCarrinho);
     </script>
+
 </body>
 </html>

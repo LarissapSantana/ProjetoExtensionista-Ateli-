@@ -29,32 +29,65 @@
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="tabela-pedidos-firestore">
                 <tr>
-                    <td>#1024</td>
-                    <td>Maria Silva (CNPJ)</td>
-                    <td>Bolo de Chocolate (2kg)</td>
-                    <td>R$ 160,00</td>
-                    <td><span class="status-badge pendente">Pendente</span></td>
-                </tr>
-                <tr>
-                    <td>#1023</td>
-                    <td>João Pereira</td>
-                    <td>Doces Finos</td>
-                    <td>R$ 220,00</td>
-                    <td><span class="status-badge producao">Em Produção</span></td>
-                </tr>
-                <tr>
-                    <td>#1022</td>
-                    <td>Ana Costa (CNPJ)</td>
-                    <td>Ganache</td>
-                    <td>R$ 80,00</td>
-                    <td><span class="status-badge entregue">Entregue</span></td>
+                    <td colspan="5" style="text-align: center; padding: 20px;">A carregar pedidos em tempo real...</td>
                 </tr>
             </tbody>
         </table>
     </main>
-    <script type="module" src="firebase-config.js"></script>
-    <script type="module" src="script.js"></script>
+
+    <script type="module">
+        import { collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { db } from './firebase-config.js';
+
+        const tabelaCorpo = document.getElementById('tabela-pedidos-firestore');
+
+        // Escuta a coleção "pedidos" ordenando pelos mais novos primeiro
+        const q = query(collection(db, "pedidos"), orderBy("dataPedido", "desc"));
+
+        onSnapshot(q, (snapshot) => {
+            tabelaCorpo.innerHTML = "";
+
+            if (snapshot.empty) {
+                tabelaCorpo.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">Nenhum pedido recebido.</td></tr>`;
+                return;
+            }
+
+            snapshot.forEach((docSnap) => {
+                const pedido = docSnap.data();
+                
+                // Cria um ID curto amigável (ex: #A34E2) baseado no ID único do Firestore
+                const idCurto = `#${docSnap.id.substring(0, 5).toUpperCase()}`;
+                
+                // Formata o texto de exibição do pagamento recebido do carrinho
+                let pagamentoTexto = pedido.formaPagamento;
+                if(pedido.formaPagamento === "Retirada") pagamentoTexto = "Pagar na Retirada 🛒";
+                if(pedido.formaPagamento === "Cartao_Credito") pagamentoTexto = "Cartão de Crédito";
+                if(pedido.formaPagamento === "Cartao_Debito") pagamentoTexto = "Cartão de Débito";
+
+                // Define a classe de status padrão (pendente, producao, entregue) com base no seu style.css
+                let classeStatus = "pendente";
+                if (pedido.status === "Em Produção") classeStatus = "producao";
+                if (pedido.status === "Entregue") classeStatus = "entregue";
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${idCurto}</td>
+                    <td>
+                        <strong>${pedido.clienteNome}</strong>
+                        <br><small style="color: #666;">Forma: ${pagamentoTexto}</small>
+                        ${pedido.observacoes !== "Nenhuma" ? `<br><small style="color: #8d279b; font-style: italic;">Obs: ${pedido.observacoes}</small>` : ''}
+                    </td>
+                    <td>${pedido.produtosDescricao}</td>
+                    <td>R$ ${pedido.valorTotal.toFixed(2).replace('.', ',')}</td>
+                    <td><span class="status-badge ${classeStatus}">${pedido.status}</span></td>
+                `;
+                tabelaCorpo.appendChild(tr);
+            });
+        }, (erro) => {
+            console.error("Erro ao carregar o painel:", erro);
+        });
+    </script>
 </body>
 </html>
