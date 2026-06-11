@@ -4,7 +4,6 @@ import { collection, addDoc, doc, setDoc, deleteDoc } from "https://www.gstatic.
 // 2. DEPOIS importamos as configurações do seu arquivo local
 import { db } from './firebase-config.js';
 // Importe updateProfile lá no topo do seu script.js vindo do firebase-auth.js
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
 // 3. AGORA inicializamos o Auth garantindo que ele pegue a instância correta
