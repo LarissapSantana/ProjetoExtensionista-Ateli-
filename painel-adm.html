@@ -144,6 +144,24 @@
         
         .select-pagamento-status.aberto { border-color: #f1b814; color: #856404; }
         .select-pagamento-status.pago { border-color: #2ecc71; color: #155724; }
+
+        /* Estilo do Botão de Limpar Pedido */
+        .btn-limpar-painel {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 5px;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .btn-limpar-painel:hover {
+            background: #c0392b;
+        }
     </style>
 </head>
 <body>
@@ -186,7 +204,7 @@
     </main>
 
     <script type="module">
-        import { collection, query, orderBy, onSnapshot, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { db } from './firebase-config.js';
 
         const conteineres = {
@@ -273,6 +291,12 @@
                                 <option value="Pago" ${statusPagamento === "Pago" ? "selected" : ""}>Pago</option>
                             </select>
                         </div>
+
+                        ${statusAtual === "Entregue" ? `
+                            <button class="btn-limpar-painel" onclick="window.excluirPedidoPainel('${idDocumento}')">
+                                🗑️ Limpar do Painel
+                            </button>
+                        ` : ''}
                     </div>
                 `;
 
@@ -314,6 +338,20 @@
             } catch (erro) {
                 console.error("Erro ao atualizar situação financeira:", erro);
                 alert("Não foi possível atualizar o status do pagamento.");
+            }
+        };
+
+        // Função para o Administrador remover permanentemente o pedido do Firestore
+        window.excluirPedidoPainel = async function(idDoc) {
+            if (confirm("Administrador, deseja remover permanentemente este pedido concluído do sistema?")) {
+                const pedidoRef = doc(db, "pedidos", idDoc);
+                try {
+                    await deleteDoc(pedidoRef);
+                    alert("Pedido removido com sucesso!");
+                } catch (erro) {
+                    console.error("Erro ao deletar pedido:", erro);
+                    alert("Não foi possível excluir o pedido.");
+                }
             }
         };
     </script>

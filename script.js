@@ -1,8 +1,10 @@
 // Importação das funções do SDK do Firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { collection, addDoc, doc, setDoc, deleteDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// CORREÇÃO: Adicionado where, getDocs e addDoc que estavam faltando nas importações do Firestore
+import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, where, getDocs, addDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 // Importação das configurações do arquivo local
 import { db } from './firebase-config.js';
+
 // Inicialização do Auth garantindo que ele pegue a instância correta
 const auth = getAuth();
 
@@ -66,18 +68,19 @@ if (formLogin) {
 }
 
 /* --- MONITOR DE ESTADO DE AUTENTICAÇÃO E ATUALIZAÇÃO DA VITRINE --- */
+let desinscreverPedidos = null; // Variável para controlar o listener em tempo real
+
 onAuthStateChanged(auth, async (user) => {
     const secaoLoginCadastro = document.getElementById('secao-login-cadastro');
     const painelUsuario = document.getElementById('painel-usuario');
     const nomeUsuarioLogado = document.getElementById('nome-usuario-logado');
-    // CORREÇÃO: Buscando pelo ID correto do painel para evitar que trave no "Carregando..."
     const tipoPerfilLogado = document.getElementById('tipo-perfil-logado');
 
     if (user) {
         if (secaoLoginCadastro) secaoLoginCadastro.style.display = 'none';
         if (painelUsuario) painelUsuario.style.display = 'block';
 
-        // Se os dados não estiverem no sessionStorage (ex: F5 na página), busca no Firestore
+        // Se os dados não estiverem no sessionStorage, busca no Firestore
         if (!sessionStorage.getItem('perfil_cliente') || !sessionStorage.getItem('nome_cliente')) {
             try {
                 const q = query(collection(db, "usuarios"), where("uid", "==", user.uid));
@@ -92,22 +95,34 @@ onAuthStateChanged(auth, async (user) => {
             }
         }
 
-        // CORREÇÃO: Exibe rigidamente o Nome Cadastrado (sem usar o e-mail fatiado)
+        // Exibe rigidamente o Nome Cadastrado
         if (nomeUsuarioLogado) {
             const nomeCadastrado = sessionStorage.getItem('nome_cliente');
             nomeUsuarioLogado.textContent = nomeCadastrado || user.displayName || "Cliente";
         }
 
-        // Define o texto do perfil (.tipo-perfil-logado)
+        // Define o texto do perfil
         const perfilSalvo = sessionStorage.getItem('perfil_cliente') || 'cnpj';
         if (tipoPerfilLogado) {
             tipoPerfilLogado.textContent = perfilSalvo === 'cpf' ? 'Pessoa Física (Varejo)' : 'Empresa (Atacado)';
+        }
+
+        // CARREGA OS PEDIDOS DO USUÁRIO EM TEMPO REAL
+        const nomeParaFiltrar = sessionStorage.getItem('nome_cliente') || user.displayName;
+        if (nomeParaFiltrar) {
+            carregarPedidosUsuario(nomeParaFiltrar);
         }
 
     } else {
         if (secaoLoginCadastro) secaoLoginCadastro.style.display = 'block';
         if (painelUsuario) painelUsuario.style.display = 'none';
         sessionStorage.clear();
+        
+        // Desliga o monitor de pedidos caso o usuário saia
+        if (desinscreverPedidos) {
+            desinscreverPedidos();
+            desinscreverPedidos = null;
+        }
     }
 
     // Recalcula e atualiza os valores na tela inicial
@@ -184,7 +199,6 @@ function atualizarPrecosVitrine() {
         const precoBase = precosOriginais[nomeProduto];
 
         if (precoBase) {
-            // CORREÇÃO: Agora passamos também o nome do produto para decidir o acréscimo correto
             const precoFinal = window.calcularPrecoPorPerfil(nomeProduto, precoBase);
             const elementoPreco = card.querySelector('.preco');
             if (elementoPreco) {
@@ -209,14 +223,35 @@ const formRegistro = document.getElementById('form-registro');
 if (formRegistro) {
     formRegistro.addEventListener('submit', async (e) => {
         e.preventDefault();
-
+        
+        // 1. Captura as opções de perfil de forma segura
         const perfilSelecionado = formRegistro.querySelector('input[name="perfil"]:checked');
-        const tipoPerfil = perfilSelecionado ? perfilSelecionado.value : 'cpf'; 
+        const tipoPerfil = perfilSelecionado ? perfilSelecionado.value : 'cpf';
+        
+        // 2. Procura os inputs diretamente pelas suas propriedades reais dentro do formulário
+        const inputNome = formRegistro.querySelector('input[placeholder*="Nome"]') || formRegistro.querySelector('input[type="text"]');
+        const inputEmail = formRegistro.querySelector('input[type="email"]');
+        const inputSenha = formRegistro.querySelector('input[placeholder*="senha"]') || formRegistro.querySelector('input[type="password"]');
+        
+        // 3. Captura o campo de documento
+        const inputDocumento = document.getElementById('doc-input') || document.getElementById('cnpj') || formRegistro.querySelector('input[placeholder*="CPF"]');
 
-        const nome = formRegistro.querySelector('input[placeholder*="Nome"]').value.trim();
-        const email = formRegistro.querySelector('input[type="email"]').value.trim();
-        const documento = document.getElementById('doc-input').value.trim();
-        const senha = formRegistro.querySelector('input[placeholder="Crie uma senha"]').value;
+        // Validação preventiva para garantir que nenhum campo venha vazio ou nulo
+        if (!inputNome || !inputEmail || !inputDocumento || !inputSenha) {
+            alert("Erro interno: Não foi possível mapear todos os campos do formulário.");
+            return;
+        }
+
+        const nome = inputNome.value.trim();
+        const email = inputEmail.value.trim();
+        const documento = inputDocumento.value.trim();
+        const senha = inputSenha.value;
+
+        // Validação visual rápida para o utilizador
+        if (!nome || !email || !documento || !senha) {
+            alert("Por favor, preencha todos os campos obrigatórios.");
+            return;
+        }
 
         try {
             // 1. CHECAGEM DE E-MAIL DUPLICADO NO FIRESTORE
@@ -224,7 +259,7 @@ if (formRegistro) {
             const snapshotEmail = await getDocs(consultaEmail);
             if (!snapshotEmail.empty) {
                 alert("Este endereço de e-mail já está em uso por outra conta.");
-                return; // Para a execução do cadastro aqui
+                return;
             }
 
             // 2. CHECAGEM DE CPF/CNPJ DUPLICADO NO FIRESTORE
@@ -232,23 +267,23 @@ if (formRegistro) {
             const snapshotDoc = await getDocs(consultaDoc);
             if (!snapshotDoc.empty) {
                 alert(`Este ${tipoPerfil.toUpperCase()} já está cadastrado no sistema.`);
-                return; // Para a execução do cadastro aqui
+                return;
             }
 
-            // 3. Se passou pelas duas checagens, cria o usuário no Auth
+            // 3. Cria o utilizador no Firebase Authentication
             const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
             const user = userCredential.user;
 
             // Define o nome de exibição nativo do Firebase Auth
             await updateProfile(user, { displayName: nome });
 
-            // Salva os dados na coleção "usuarios" do Firestore
+            // 4. Salva as informações extras na coleção "usuarios" do Firestore
             await addDoc(collection(db, "usuarios"), {
                 uid: user.uid,
                 nome: nome,
                 email: email,
                 documento: documento,
-                perfil: tipoPerfil, 
+                perfil: tipoPerfil,
                 dataCadastro: new Date()
             });
 
@@ -260,8 +295,10 @@ if (formRegistro) {
             console.error("Erro ao cadastrar:", error);
             if (error.code === 'auth/email-already-in-use') {
                 alert("Este endereço de e-mail já está em uso.");
+            } else if (error.code === 'auth/weak-password') {
+                alert("A senha deve ter pelo menos 6 caracteres.");
             } else {
-                alert("Erro ao realizar cadastro. Tente novamente.");
+                alert("Erro ao realizar cadastro. Verifique os dados e tente novamente.");
             }
         }
     });
@@ -409,3 +446,97 @@ window.abrirCarrinho = function() { window.location.href = 'carrinho.html'; };
 document.addEventListener('DOMContentLoaded', () => {
     atualizarContadorMenu();
 });
+
+/* --- EVENTO DE LOGIN ADMINISTRATIVO --- */
+const formAdmin = document.getElementById('formAdmin');
+if (formAdmin) {
+    formAdmin.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('emailAdmin').value.trim();
+        const senha = document.getElementById('senhaAdmin').value;
+        const EMAIL_ADMIN_PERMITIDO = 'jenifer.atelie@gmail.com'; 
+
+        if (email.toLowerCase() !== EMAIL_ADMIN_PERMITIDO.toLowerCase()) {
+            alert("Acesso negado. Credenciais administrativas inválidas.");
+            return;
+        }
+
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+            sessionStorage.setItem('perfil_cliente', 'admin');
+            sessionStorage.setItem('nome_cliente', 'Administrador');
+            alert("Autenticação administrativa realizada com sucesso!");
+            window.location.href = "painel-adm.html";
+        } catch (error) {
+            console.error("Erro ao autenticar administrador:", error);
+            alert("Erro ao acessar o painel. Verifique a senha digitada.");
+        }
+    });
+}
+
+/* --- HISTÓRICO DE PEDIDOS E OPÇÃO DE EXCLUSÃO --- */
+function carregarPedidosUsuario(nomeCliente) {
+    const containerLista = document.getElementById('lista-pedidos-usuario');
+    if (!containerLista) return;
+
+    const q = query(collection(db, "pedidos"), where("clienteNome", "==", nomeCliente));
+
+    desinscreverPedidos = onSnapshot(q, (snapshot) => {
+        containerLista.innerHTML = "";
+
+        if (snapshot.empty) {
+            containerLista.innerHTML = `<p style="color: #999; font-size: 0.85rem; text-align: center;">Você não possui pedidos registrados.</p>`;
+            return;
+        }
+
+        snapshot.forEach((docSnap) => {
+            const pedido = docSnap.data();
+            const idPedido = docSnap.id;
+
+            let statusCor = "#f1b814";
+            if (pedido.status === "Entregue") statusCor = "#2ecc71";
+            if (pedido.status === "Cancelado") statusCor = "#e74c3c";
+
+            const cardPedido = document.createElement('div');
+            cardPedido.style.cssText = "background: #fdfbf7; border: 1px solid #eee; border-radius: 6px; padding: 12px; margin-bottom: 10px; font-size: 0.85rem; box-shadow: 0 2px 5px rgba(0,0,0,0.02);";
+
+            let htmlConteudo = `
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <strong>Itens:</strong> 
+                    <span style="color: ${statusCor}; font-weight: bold;">● ${pedido.status}</span>
+                </div>
+                <p style="color: #555; margin-bottom: 5px;">${pedido.produtosDescricao}</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; border-top: 1px dashed #eee; padding-top: 6px;">
+                    <strong>Total: R$ ${pedido.valorTotal.toFixed(2).replace('.', ',')}</strong>
+            `;
+
+            if (pedido.status === "Entregue") {
+                htmlConteudo += `
+                    <button onclick="window.excluirPedidoEntregue('${idPedido}')" 
+                            style="background: #e74c3c; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; font-weight: bold; transition: 0.2s;"
+                            onmouseover="this.style.background='#c0392b'" 
+                            onmouseout="this.style.background='#e74c3c'">
+                        Limpar Histórico
+                    </button>
+                `;
+            }
+
+            htmlConteudo += `</div>`;
+            cardPedido.innerHTML = htmlConteudo;
+            containerLista.appendChild(cardPedido);
+        });
+    });
+}
+
+window.excluirPedidoEntregue = async function(idPedido) {
+    if (confirm("Deseja realmente remover este pedido entregue do seu histórico?")) {
+        try {
+            await deleteDoc(doc(db, "pedidos", idPedido));
+            alert("Pedido removido do histórico com sucesso!");
+        } catch (erro) {
+            console.error("Erro ao excluir pedido:", erro);
+            alert("Erro ao tentar remover o pedido. Tente novamente.");
+        }
+    }
+};

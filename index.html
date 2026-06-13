@@ -817,10 +817,10 @@
                 
                 <div class="tipo-perfil">
                     <label>
-                        <input type="radio" name="perfil" value="cpf"  id="perfil-cpf" onclick="ajustarCampos('cpf')"> Pessoa Física (CPF)
+                        <input type="radio" name="perfil" value="cpf"  id="perfil-cpf" onclick="window.ajustarCampos('cpf')"> Pessoa Física (CPF)
                     </label>
                     <label>
-                        <input type="radio" name="perfil" value="cnpj" id="perfil-cnpj" onclick="ajustarCampos('cnpj')"> Empresa (CNPJ)
+                        <input type="radio" name="perfil" value="cnpj" id="perfil-cnpj" onclick="window.ajustarCampos('cnpj')"> Empresa (CNPJ)
                     </label>
                 </div>
 
@@ -833,16 +833,20 @@
             </form>
         </div>
 
-        <!-- NOVO: ÁREA DO PAINEL DO USUÁRIO LOGADO E LOGOUT -->
-        <div id="painel-usuario" class="acesso-box" style="display: none; padding: 40px; text-align: center;">
-            <h2 style="border-bottom: none; color: var(--secundaria); margin-bottom: 10px;">Olá, <span id="nome-usuario-logado">Cliente</span>! 🧁</h2>
-            <p style="font-size: 1.1rem; color: #666; margin-bottom: 20px;">Você está conectado como: <strong id="tipo-perfil-logado">Carregando...</strong></p>
-            <p style="font-size: 0.95rem; color: #888; margin-bottom: 30px;">Agora você já pode aproveitar as vantagens da nossa vitrine e fechar seus pedidos personalizados.</p>
-            
-            <button id="btn-logout" class="btn-logincliente" style="max-width: 250px; background-color: #fb3f3f; margin: 0 auto; display: block;">
-                Sair da Conta
-            </button>
+        <div id="painel-usuario" style="display: none; margin-top: 40px;">
+    <div class="painel-usuario-box">
+        <h3>Olá, <span id="nome-usuario-logado">Carregando...</span>! ✨</h3>
+        <p>Você está autenticado como: <strong id="tipo-perfil-logado">Carregando...</strong></p>
+        <button id="btn-logout" class="btn-logout">Sair da Conta</button>
+        
+        <div class="historico-pedidos" style="margin-top: 30px; text-align: left; border-top: 1px solid #ddd; padding-top: 20px;">
+            <h4 style="color: var(--secundaria); margin-bottom: 15px;">Minhas Encomendas</h4>
+            <div id="lista-pedidos-usuario">
+                <p style="color: #666; font-size: 0.9rem;">Buscando seus pedidos...</p>
+            </div>
         </div>
+    </div>
+</div>
     </section>
 
     <footer id="contato">
