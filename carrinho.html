@@ -78,14 +78,13 @@
     </footer>
 
     <script type="module">
-        // 1. IMPORTAÇÃO SEGURA DO FIREBASE
+        // IMPORTAÇÃO SEGURA DO FIREBASE
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { db } from './firebase-config.js';
 
         const auth = getAuth();
 
-        // 2. AS SUAS FUNÇÕES ORIGINAIS (Tornadas globais com 'window.' para os botões funcionarem)
         window.obterItens = function() {
             return JSON.parse(localStorage.getItem('carrinho_atelie')) || [];
         }
@@ -108,8 +107,12 @@
             listaContainer.innerHTML = '';
             let totalGeral = 0;
 
+            // Obtém o perfil atual para garantir o recálculo correto na listagem
+            const perfil = sessionStorage.getItem('perfil_cliente') || 'cnpj';
+
             itens.forEach((item, index) => {
-                const subtotal = item.preco * item.quantidade;
+                const precoAjustado = item.preco; 
+                const subtotal = precoAjustado * item.quantidade;
                 totalGeral += subtotal;
 
                 const itemRow = document.createElement('div');
@@ -119,7 +122,7 @@
                 itemRow.innerHTML = `
                     <div>
                         <h4 style="color: #4a1c40; font-size: 1.1rem; margin-bottom: 4px;">${item.nome}</h4>
-                        <span style="color: #666; font-size: 0.9rem;">${item.quantidade}x R$ ${item.preco.toFixed(2).replace('.', ',')}</span>
+                        <span style="color: #666; font-size: 0.9rem;">${item.quantidade}x R$ ${precoAjustado.toFixed(2).replace('.', ',')}</span>
                     </div>
                     <div style="display: flex; align-items: center; gap: 15px;">
                         <span style="font-weight: bold; color: var(--secundaria); font-size: 1.1rem;">R$ ${subtotal.toFixed(2).replace('.', ',')}</span>
@@ -139,7 +142,7 @@
             window.renderizarPaginaCarrinho();
         };
 
-        // 3. SUA FUNÇÃO DE ENVIO ATUALIZADA PARA GRAVAR NO ADM (FIREBASE)
+        // FUNÇÃO DE ENVIO PARA GRAVAR NO ADM (FIREBASE)
         window.enviarPedidoFinal = async function() {
             const formaPagamento = document.querySelector('input[name="pagamento"]:checked').value;
             const obs = document.getElementById('observacoes-pedido').value;

@@ -1,12 +1,9 @@
-// 1. PRIMEIRO importamos as funções do SDK do Firebase
+// Impportação das funções do SDK do Firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { collection, addDoc, doc, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-// 2. DEPOIS importamos as configurações do seu arquivo local
+// Importação das configurações do arquivo local
 import { db } from './firebase-config.js';
-// Importe updateProfile lá no topo do seu script.js vindo do firebase-auth.js
-
-
-// 3. AGORA inicializamos o Auth garantindo que ele pegue a instância correta
+// Inicialização do Auth garantindo que ele pegue a instância correta
 const auth = getAuth();
 
 // --- FUNÇÃO PARA ALTERNAR VISUALMENTE ENTRE LOGIN E CADASTRO ---
@@ -31,8 +28,9 @@ window.trocarAba = function(aba) {
     }
 };
 
-/* --- VALIDAÇÃO E EVENTO DE LOGIN --- */
-const formLogin = document.getElementById('form-login');
+/* --- VALIDAÇÃO E EVENTO DE LOGIN  --- */
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 if (formLogin) {
     formLogin.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -41,26 +39,108 @@ if (formLogin) {
         const senha = document.getElementById('senha-login').value;
 
         try {
-            // Tenta realizar o login no Firebase
             const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-            alert("Login realizado com sucesso! Bem-vindo(a).");
+            const user = userCredential.user;
+
+            // BUSCA O PERFIL DO USUÁRIO NO FIRESTORE
+            const q = query(collection(db, "usuarios"), where("uid", "==", user.uid));
+            const querySnapshot = await getDocs(q);
             
-            // Redireciona ou atualiza a página aqui se necessário
-            // window.location.href = "pagina-interna.html";
+            if (!querySnapshot.empty) {
+                const dadosUsuario = querySnapshot.docs[0].data();
+                // Salva o perfil ('cpf' ou 'cnpj') na sessão do navegador
+                sessionStorage.setItem('perfil_cliente', dadosUsuario.perfil);
+            } else {
+                // Se não achar (ou se for um cliente antigo sem perfil), define como 'cnpj' por padrão ou 'cpf'
+                sessionStorage.setItem('perfil_cliente', 'cnpj');
+            }
+
+            alert("Login realizado com sucesso! Bem-vindo(a).");
+            window.location.reload(); // Recarrega para atualizar os preços na tela
 
         } catch (error) {
-            console.error("Erro ao logar:", error.code);
+            // ... seu código de tratamento de erro existente ...
+        }
+    });
+}
+
+// Função para calcular o preço baseado no perfil do cliente
+window.calcularPrecoPorPerfil = function(precoBase) {
+    const perfil = sessionStorage.getItem('perfil_cliente') || 'cnpj'; // CNPJ é o padrão se não estiver logado
+    
+    if (perfil === 'cpf') {
+        // Exemplo: Adiciona 30% de acréscimo para Pessoa Física (Varejo)
+        return precoBase * 1.30; 
+    }
+    return precoBase; // Retorna preço padrão para CNPJ
+};
+
+// Atualiza visualmente os preços dos cards na tela inicial
+function atualizarPrecosVitrine() {
+    // Mapeamento dos produtos 
+    const precosOriginais = {
+        "Bolo Black Meio Amargo": 13.00,
+        "Bolo Brigadeiro com Maracujá": 13.00,
+        "Bolo Doce de Leite com Ameixa": 13.00,
+        "Bolo Doce de Leite com Coco": 13.00,
+        "Bolo Ninho com Abacaxi": 13.00,
+        "Bolo Ninho Branco": 13.00,
+        "Bolo Ninho com Maracujá": 13.00,
+        "Bolo Ninho com Morango": 13.00,
+        "Bolo Ninho Trufado": 13.00,
+        "Bolo Prestigio": 13.00,
+        "Bolo Red Velvet": 13.00,
+        "Bolo Suflair": 13.00,
+        "Cone de Brigadeiro": 9.50,
+        "Cone de Ferreiro": 9.50,
+        "Cone de Raffaello": 9.50,
+        "Cone de Kinder": 9.50,
+        "Cone de Ninho com Nutella": 9.50,
+        "Cone de Prestigio": 9.50,
+        "Bombom de Uva": 14.00,
+        "Brownie no pote de Maracujá": 14.00,
+        "Brownie no pote de Doce de Leite": 14.00,
+        "Brownie no pote de Dois Amores": 14.00,
+        "Sanduíche de Brownie de Nutella": 7.00,
+        "Sanduíche de Brownie de Ninho": 7.00,
+        "Sanduíche de Brownie de Brigadeiro": 7.00,
+        "Sanduíche de Brownie de Doce de Leite": 7.00,
+        "Sanduíche de Brownie de Ovomaltine": 7.00
+    };
+
+    const cards = document.querySelectorAll('#produtos .card');
+    cards.forEach(card => {
+        const nomeProduto = card.querySelector('h3').textContent.trim();
+        const precoBase = precosOriginais[nomeProduto];
+
+        if (precoBase) {
+            const precoFinal = window.calcularPrecoPorPerfil(precoBase);
             
-            // Se o e-mail não existir no sistema, avisa e joga para o cadastro
-            if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-                alert("Usuário não encontrado ou senha incorreta! Se você ainda não tem conta, faça seu cadastro.");
-                trocarAba('registro'); // Move o usuário automaticamente para a aba de cadastro
-            } else {
-                alert("Erro ao entrar: " + error.message);
+            // Atualiza o texto do preço no Card
+            const elementoPreco = card.querySelector('.preco');
+            if (elementoPreco) {
+                elementoPreco.textContent = `R$ ${precoFinal.toFixed(2).replace('.', ',')}`;
+            }
+
+            // ATENÇÃO: Atualiza os argumentos das funções dos botões de ação do card dinamicamente!
+            const btnAdd = card.querySelector('.btn-acao-add');
+            const btnComprar = card.querySelector('.btn-acao-comprar');
+
+            if (btnAdd) {
+                const qtd = card.querySelector('.card-qtd-numero').textContent;
+                btnAdd.setAttribute('onclick', `window.confirmarAdicaoCarrinho(this, '${nomeProduto}', ${precoFinal})`);
+            }
+            if (btnComprar) {
+                btnComprar.setAttribute('onclick', `window.confirmarCompraImediata(this, '${nomeProduto}', ${precoFinal})`);
             }
         }
     });
 }
+
+// Executa a atualização assim que a árvore do DOM estiver pronta
+document.addEventListener('DOMContentLoaded', () => {
+    atualizarPrecosVitrine();
+});
 
 /* --- CADASTRO CLIENTE */
 const formRegistro = document.getElementById('form-registro');
@@ -126,7 +206,7 @@ window.filtrarProdutos = function() {
         const massaCard = card.getAttribute('data-massa') || '';
         const tituloCard = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
         
-        // Verifica se o ícone de coração dentro DESTE card possui a classe 'favoritado'
+        // Verifica se o ícone de coração dentro DESTE card possui a classe "favoritado"
         const iconeCoracao = card.querySelector('.coracao');
         const ehFavorito = iconeCoracao ? iconeCoracao.classList.contains('favoritado') : false;
 
@@ -134,7 +214,7 @@ window.filtrarProdutos = function() {
         const bateCategoria = (categoriaSelecionada === 'todos' || categoriaCard === categoriaSelecionada);
         const bateMassa = (massaSelecionada === 'todos' || massaCard === massaSelecionada);
         const bateNome = tituloCard.includes(termoBusca);
-        const bateFavorito = (!apenasFavoritosAtivo || ehFavorito); // Se o filtro estiver desativado, mostra tudo. Se estiver ativo, só mostra se ehFavorito for true.
+        const bateFavorito = (!apenasFavoritosAtivo || ehFavorito); // Se o filtro estiver desativado, mostra tudo. Se estiver ativo, só mostra se "favorito" for true.
 
         // O card só aparece se passar em absolutamente TODOS os filtros ativos simultaneamente
         if (bateCategoria && bateMassa && bateNome && bateFavorito) {
@@ -146,7 +226,6 @@ window.filtrarProdutos = function() {
 };
 
 // --- SISTEMA DE FAVORITOS INTEGRADO AO FIREBASE ---
-// Altere ou verifique se a assinatura da função está capturando o element e o produtoId:
 window.toggleFavorito = async function(element, produtoId) {
     const usuarioLogado = auth.currentUser;
 
@@ -159,12 +238,12 @@ window.toggleFavorito = async function(element, produtoId) {
         return;
     }
 
-    // Captura o span/i de coração interno
+    // Captura o span/i de "coração" interno
     const iconeCoracao = element.querySelector('.coracao') || element;
     const favoritoRef = doc(db, "usuarios", usuarioLogado.uid, "favoritos", produtoId);
 
     try {
-        // Se já tem a classe 'favoritado', remove
+        // Se já tem a classe "favoritado", remove
         if (iconeCoracao.classList.contains('favoritado')) {
             await deleteDoc(favoritoRef);
             iconeCoracao.classList.remove('favoritado');
@@ -184,9 +263,7 @@ window.toggleFavorito = async function(element, produtoId) {
     }
 };
 
-// ==========================================================================
-// SISTEMA DE CARRINHO COM LOCALSTORAGE (INTEGRAÇÃO ENTRE PÁGINAS)
-// ==========================================================================
+// ---- SISTEMA DE CARRINHO COM LOCALSTORAGE (INTEGRAÇÃO ENTRE PÁGINAS) ----
 
 // Função auxiliar para carregar o carrinho do LocalStorage
 function obterCarrinho() {
@@ -199,7 +276,7 @@ function salvarCarrinho(carrinho) {
     atualizarContadorMenu();
 }
 
-// 1. Abre os controles de quantidade escondidos dentro do card
+// Abre os controles de quantidade escondidos dentro do card
 window.mostrarContadorCard = function(botaoPedir) {
     const rodape = botaoPedir.parentElement;
     const containerOpcoes = rodape.querySelector('.card-opcoes-quantidade');
@@ -210,7 +287,7 @@ window.mostrarContadorCard = function(botaoPedir) {
     }
 };
 
-// 2. Controla o incremento e decremento (+ e -) no card
+// Controla o incremento e decremento (+ e -) no card
 window.alterarQtdInterna = function(botaoContador, alteracao) {
     const containerSeletor = botaoContador.parentElement;
     const spanNumero = containerSeletor.querySelector('.card-qtd-numero');
@@ -222,7 +299,7 @@ window.alterarQtdInterna = function(botaoContador, alteracao) {
     spanNumero.textContent = quantidadeAtual;
 };
 
-// 3. AÇÃO: Botão Adicionar ao Carrinho
+// Botão Adicionar ao Carrinho
 window.confirmarAdicaoCarrinho = function(botaoConfirmar, nome, preco) {
     const rodape = botaoConfirmar.closest('.card-rodape');
     const spanNumero = rodape.querySelector('.card-qtd-numero');
@@ -234,7 +311,7 @@ window.confirmarAdicaoCarrinho = function(botaoConfirmar, nome, preco) {
     restaurarEstadoCard(rodape, spanNumero);
 };
 
-// 4. AÇÃO: Botão Comprar Já (Adiciona e vai direto para a página do carrinho)
+// Botão Comprar Já (Adiciona e vai direto para a página do carrinho)
 window.confirmarCompraImediata = function(botaoConfirmar, nome, preco) {
     const rodape = botaoConfirmar.closest('.card-rodape');
     const spanNumero = rodape.querySelector('.card-qtd-numero');
