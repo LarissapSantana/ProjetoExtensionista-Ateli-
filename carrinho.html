@@ -88,6 +88,14 @@
         window.obterItens = function() {
             return JSON.parse(localStorage.getItem('carrinho_atelie')) || [];
         }
+        window.calcularPrecoPorPerfil = function(precoBase) {
+            const perfil = sessionStorage.getItem('perfil_cliente') || 'cnpj';
+            if (perfil === 'cpf') {
+                return precoBase * 1.30; // Acréscimo de 30% para varejo (CPF)
+            }
+            return precoBase;
+        };
+
 
         window.renderizarPaginaCarrinho = function() {
             const itens = window.obterItens();

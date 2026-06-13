@@ -132,63 +132,6 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     color: var(--secundaria);
 }
 
-/* --- ESTILIZAÇÃO DO PAINEL DO USUÁRIO E LOGOUT --- */
-.painel-usuario-container {
-    background-color: var(--branco);
-    border-radius: 12px;
-    padding: 25px;
-    margin: 20px auto;
-    max-width: 450px;
-    box-shadow: 0 4px 15px rgba(141, 39, 155, 0.15);
-    border: 2px solid var(--primaria);
-    text-align: center;
-}
-
-.painel-usuario-container h3 {
-    color: var(--secundaria);
-    font-size: 1.4rem;
-    margin-bottom: 10px;
-}
-
-.painel-usuario-container p {
-    color: var(--texto-escuro);
-    font-size: 1rem;
-    margin-bottom: 15px;
-}
-
-.badge-perfil {
-    background-color: var(--secundaria);
-    color: var(--branco);
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    display: inline-block;
-}
-
-.btn-logout-atelie {
-    background-color: #fb3f3f;
-    color: var(--branco);
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.btn-logout-atelie:hover {
-    background-color: #d92626;
-    transform: translateY(-2px);
-}
-
-.btn-logout-atelie:active {
-    transform: translateY(0);
-}
 
 .container {
     max-width: 1250px;  
@@ -866,3 +809,57 @@ tr:hover {
     font-size: 1.2rem;
 }
 
+/* --- PAINEL DO USUÁRIO LOGADO E LOGOUT --- */
+.painel-usuario-box {
+    background-color: var(--branco);
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 450px;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(141, 39, 155, 0.1);
+    border: 1px solid var(--primaria);
+}
+
+.painel-usuario-box h3 {
+    color: var(--secundaria);
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+}
+
+.painel-usuario-box p {
+    color: var(--texto-escuro);
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.badge-tipo-cliente {
+    background-color: var(--secundaria);
+    color: var(--branco);
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.btn-logout-atelie {
+    background-color: #fb3f3f;
+    color: var(--branco);
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 100%;
+}
+
+.btn-logout-atelie:hover {
+    background-color: #d92626;
+}
+
+.btn-logout-atelie:active {
+    transform: scale(0.98);
+}

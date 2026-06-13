@@ -798,7 +798,8 @@
         </div>
     </section>
     <section id="cadastro" class="container">
-        <div class="acesso-box">
+        <!-- ÁREA DOS FORMULÁRIOS (Será controlada dinamicamente pelo JS) -->
+        <div id="secao-login-cadastro" class="acesso-box">
             <div class="abas-container">
                 <button class="aba-btn active" id="btn-login-aba" onclick="window.trocarAba('login')">Login</button>
                 <button class="aba-btn" id="btn-registro-aba" onclick="window.trocarAba('registro')">Cadastrar</button>
@@ -816,10 +817,10 @@
                 
                 <div class="tipo-perfil">
                     <label>
-                        <input type="radio" name="perfil" value="cpf" checked onclick="ajustarCampos('cpf')"> Pessoa Física (CPF)
+                        <input type="radio" name="perfil" value="cpf"  id="perfil-cpf" onclick="ajustarCampos('cpf')"> Pessoa Física (CPF)
                     </label>
                     <label>
-                        <input type="radio" name="perfil" value="cnpj" onclick="ajustarCampos('cnpj')"> Empresa (CNPJ)
+                        <input type="radio" name="perfil" value="cnpj" id="perfil-cnpj" onclick="ajustarCampos('cnpj')"> Empresa (CNPJ)
                     </label>
                 </div>
 
@@ -831,17 +832,17 @@
                 <button type="submit" class="btn-cadastro">Finalizar Cadastro</button>
             </form>
         </div>
-       <div id="secao-login-cadastro">
-    </div>
 
-    <div id="painel-usuario" class="painel-usuario-container" style="display: none;">
-        <h3>Olá, <span id="nome-usuario-logado">Cliente</span>!</h3>
-        <p>Tipo de Conta: <span id="tipo-perfil-logado" class="badge-perfil">...</span></p>
-        
-        <button id="btn-logout" class="btn-logout-atelie">
-            Sair da Conta 🚪
-        </button>
-    </div>
+        <!-- NOVO: ÁREA DO PAINEL DO USUÁRIO LOGADO E LOGOUT -->
+        <div id="painel-usuario" class="acesso-box" style="display: none; padding: 40px; text-align: center;">
+            <h2 style="border-bottom: none; color: var(--secundaria); margin-bottom: 10px;">Olá, <span id="nome-usuario-logado">Cliente</span>! 🧁</h2>
+            <p style="font-size: 1.1rem; color: #666; margin-bottom: 20px;">Você está conectado como: <strong id="tipo-perfil-logado">Carregando...</strong></p>
+            <p style="font-size: 0.95rem; color: #888; margin-bottom: 30px;">Agora você já pode aproveitar as vantagens da nossa vitrine e fechar seus pedidos personalizados.</p>
+            
+            <button id="btn-logout" class="btn-logincliente" style="max-width: 250px; background-color: #fb3f3f; margin: 0 auto; display: block;">
+                Sair da Conta
+            </button>
+        </div>
     </section>
 
     <footer id="contato">
