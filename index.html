@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="style.css">
+    <!-- SweetAlert2 para Alertas Modernos -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Ateliê Jenifer Gama Confeitaria</title>
 </head>
 <body>
@@ -23,27 +25,31 @@
                 <li><a href="#contato">Contato</a></li>
                 <li>
                     <a href="javascript:void(0)" class="carrinho-icone" onclick="abrirCarrinho()">
-                        🛒 <span id="carrinho-contador"></span></a>
+                        🛒 <span id="carrinho-contador"></span>
+                    </a>
                 </li>
             </ul>
         </nav>
     </header>
+
     <article id="inicio" class="banner">
         <div>
             <h1>Ateliê Jenifer Gama Confeitaria</h1>
-            <p>Transformando momentos especiais em doces memórias</p>
+            <p>Transformando momentos especiais in doces memórias</p>
             <a href="#sobre" class="btn">Entenda como funcionamos</a>
         </div>
     </article>
+
     <section id="sobre" class="container">
-        <h1> Sobre nós</h1>
-        <p> No nosso ateliê vendemos apenas por ENCOMENDA, sendo assim, não há pedidos a pronta entrega. Além disso, nossos serviços são prestados á pessoas júridicas (CNPJ), caso voçê deseje comprar para consumo, os valores dos produtos serão equivalentes aos dos estabelecimentos que os revendem. </p><br>
-        <p>Para realizar seu pedido basta fazer seu cadastro, assim que for concluído, você irá para uma página atualizada.</p>
+        <h1>Sobre nós</h1>
+        <p>No nosso ateliê vendemos apenas por ENCOMENDA, sendo assim, não há pedidos a pronta entrega. Além disso, nossos serviços são prestados a pessoas jurídicas (CNPJ). Caso você deseje comprar para consumo pessoal (CPF), os valores dos produtos conterão acréscimos equivalentes aos estabelecimentos que os revendem.</p><br>
+        <p>Para realizar seu pedido basta fazer seu cadastro, assim que for concluído, você terá acesso total à nossa vitrine de pedidos integrada.</p>
         <a href="#cadastro" class="btn">Faça seu cadastro</a>
     </section>
+
     <section id="produtos" class="container">
         <h2>Nossos Produtos</h2>
-        <h3 >Confira nossa seleção de doces artesanais feitos com muito carinho e ingredientes de qualidade!</h3>
+        <h3>Confira nossa seleção de doces artesanais feitos com muito carinho e ingredientes de qualidade!</h3>
         
         <div class="filtros-container">
             <input type="text" id="buscaNome" placeholder="O que você procura?" onkeyup="filtrarProdutos()">
@@ -63,7 +69,8 @@
                 <option value="chocolate">Chocolate</option>
                 <option value="redvelvet">Red Velvet</option>
             </select>
-             <select id="filtroFavoritos" onchange="filtrarProdutos()">
+
+            <select id="filtroFavoritos" onchange="filtrarProdutos()">
                 <option value="todos">Todos os Produtos</option>
                 <option value="favoritos">Meus Favoritos ❤</option>
             </select>
@@ -736,7 +743,8 @@
             </div>
     </div>
     </section>
-    <section id="avaliacao" class="container">
+
+     <section id="avaliacao" class="container">
         <h2>Avaliações dos nossos clientes</h2>
         <div class="coluna-prod">
             <div class="card">
@@ -797,8 +805,8 @@
         </div>
         </div>
     </section>
+
     <section id="cadastro" class="container">
-        <!-- ÁREA DOS FORMULÁRIOS (Será controlada dinamicamente pelo JS) -->
         <div id="secao-login-cadastro" class="acesso-box">
             <div class="abas-container">
                 <button class="aba-btn active" id="btn-login-aba" onclick="window.trocarAba('login')">Login</button>
@@ -814,77 +822,59 @@
 
             <form id="form-registro" class="form-acesso">
                 <h2>Crie sua conta</h2>
-                
                 <div class="tipo-perfil">
-                    <label>
-                        <input type="radio" name="perfil" value="cpf"  id="perfil-cpf" onclick="window.ajustarCampos('cpf')"> Pessoa Física (CPF)
-                    </label>
-                    <label>
-                        <input type="radio" name="perfil" value="cnpj" id="perfil-cnpj" onclick="window.ajustarCampos('cnpj')"> Empresa (CNPJ)
-                    </label>
+                    <label><input type="radio" name="perfil" value="cpf" id="perfil-cpf" onclick="window.ajustarCampos('cpf')"> Pessoa Física (CPF)</label>
+                    <label><input type="radio" name="perfil" value="cnpj" id="perfil-cnpj" checked onclick="window.ajustarCampos('cnpj')"> Empresa (CNPJ)</label>
                 </div>
-
                 <input type="text" placeholder="Nome Completo / Razão Social" required>
                 <input type="email" placeholder="E-mail" required>
-                <input type="text" id="doc-input" placeholder="000.000.000-00" required>
+                <input type="text" id="doc-input" placeholder="00.000.000/0001-00" required>
                 <input type="password" placeholder="Crie uma senha" required>
-                
                 <button type="submit" class="btn-cadastro">Finalizar Cadastro</button>
             </form>
         </div>
 
         <div id="painel-usuario" style="display: none; margin-top: 40px;">
-    <div class="painel-usuario-box">
-        <h3>Olá, <span id="nome-usuario-logado">Carregando...</span>! ✨</h3>
-        <p>Você está autenticado como: <strong id="tipo-perfil-logado">Carregando...</strong></p>
-        <button id="btn-logout" class="btn-logout">Sair da Conta</button>
-        
-        <div class="historico-pedidos" style="margin-top: 30px; text-align: left; border-top: 1px solid #ddd; padding-top: 20px;">
-            <h4 style="color: var(--secundaria); margin-bottom: 15px;">Minhas Encomendas</h4>
-            <div id="lista-pedidos-usuario">
-                <p style="color: #666; font-size: 0.9rem;">Buscando seus pedidos...</p>
+            <div class="painel-usuario-box">
+                <h3>Olá, <span id="nome-usuario-logado">Carregando...</span>! ✨</h3>
+                <p>Você está autenticado como: <strong id="tipo-perfil-logado">Carregando...</strong></p>
+                <button id="btn-logout" class="btn-logout">Sair da Conta</button>
+                
+                <div class="historico-pedidos" style="margin-top: 30px; text-align: left; border-top: 1px solid #ddd; padding-top: 20px;">
+                    <h4 style="color: var(--secundaria); margin-bottom: 15px;">Minhas Encomendas</h4>
+                    <div id="lista-pedidos-usuario">
+                        <p style="color: #666; font-size: 0.9rem;">Buscando seus pedidos...</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
     </section>
 
     <footer id="contato">
         <div class="footer-container">
             <div class="footer-info">
-                <h3>
-                    <img src="img/logo.png" alt="Logo Ateliê Jenifer Gama">
-                    Ateliê Jenifer Gama
-                </h3>
+                <h3><img src="img/logo.png" alt="Logo"> Ateliê Jenifer Gama</h3>
                 <p>Doces artesanais feitos com carinho e dedicação!</p>
-                <p><strong>Horário de Encomendas:</strong><br> Seg, Qua e Qui: até ás 13h</p>
-                <p><strong>Horário de Retirada:</strong><br> Ter, Qui e Sex: a partir das 16h45</p>
-
-                <a href="login-adm.html" class="link-admin" onclick="trocarAba('login')">Acesso Administrativo</a>
+                <p><strong>Horário de Encomendas:</strong><br> Seg, Qua e Qi: até às 13h</p>
+                <a href="login-adm.html" class="link-admin">Acesso Administrativo</a>
             </div>
             <div class="footer-links">
                 <h4>Navegação</h4>
                 <ul>
                     <li><a href="#inicio">Início</a></li>
-                    <li><a href="#sobre">Sobre</a></li>
                     <li><a href="#produtos">Produtos</a></li>
-                    <li><a href="#avaliacao">Avaliações</a></li>
                     <li><a href="#cadastro">Cadastro</a></li>
                 </ul>
             </div>
             <div class="footer-contato">
                 <h4>Fale Conosco</h4>
-                <a href="https://wa.me/5500999999999" target="_blank" class="btn-whats">
-                    Chamar no WhatsApp
-                </a>
+                <a href="https://wa.me/5500999999999" target="_blank" class="btn-whats">Chamar no WhatsApp</a>
                 <p>Email: jenifer.atelie@gmail.com</p>
-                <p>Local: São Paulo - SP</p>
             </div>
         </div>
-        <div class="copyright">
-            <p>© 2026 Ateliê Jenifer Gama Confeitaria</p>
-        </div>
+        <div class="copyright"><p>© 2026 Ateliê Jenifer Gama Confeitaria</p></div>
     </footer>
+
     <script type="module" src="firebase-config.js"></script>
     <script type="module" src="./script.js"></script>
 </body>

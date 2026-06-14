@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="img/logo.png">
+    <link type="image/png" rel="icon" href="img/logo.png">
     <link rel="stylesheet" href="style.css">
+    <!-- SweetAlert2 para Alertas Modernos -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Painel de Pedidos - Ateliê</title>
     <style>
         /* Layout do Quadro de Pedidos Separados */
@@ -171,7 +173,7 @@
             <img src="img/logo.png" alt="Logo">
             <span>Painel Administrativo</span>
         </div>
-        <a href="login-adm.html" class="btn-logout">Sair do painel</a>
+        <a class="btn-logout" href="login-adm.html">Sair do painel</a>
     </header>
 
     <main class="main-panel">
@@ -207,6 +209,9 @@
         import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { db } from './firebase-config.js';
 
+        // Definição da cor padrão roxa do ateliê para os botões de confirmação
+        const COR_CONFIRMAR = '#8d279b';
+
         const conteineres = {
             "Pendente": document.getElementById('lista-pendentes'),
             "Em Produção": document.getElementById('lista-producao'),
@@ -233,8 +238,6 @@
                 const idCurto = `#${idDocumento.substring(0, 5).toUpperCase()}`;
                 
                 const statusAtual = conteineres[pedido.status] ? pedido.status : "Pendente";
-                
-                // Pega o status do pagamento ou define como "Em Aberto" se for um pedido antigo
                 const statusPagamento = pedido.situacaoPagamento || "Em Aberto";
 
                 let pagamentoTexto = pedido.formaPagamento;
@@ -315,6 +318,12 @@
 
         }, (erro) => {
             console.error("Erro ao carregar colunas do painel:", erro);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro de Conexão',
+                text: 'Não foi possível carregar as informações do banco de dados.',
+                confirmButtonColor: COR_CONFIRMAR
+            });
         });
 
         // Modifica o status de produção (Move entre as colunas)
@@ -325,7 +334,12 @@
                 await updateDoc(pedidoRef, { status: novoStatus });
             } catch (erro) {
                 console.error("Erro ao atualizar status:", erro);
-                alert("Não foi possível mover o pedido.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Falha na Atualização',
+                    text: 'Ocorreu um problema ao tentar mover a etapa de produção deste pedido.',
+                    confirmButtonColor: COR_CONFIRMAR
+                });
             }
         };
 
@@ -337,20 +351,46 @@
                 await updateDoc(pedidoRef, { situacaoPagamento: novaSituacao });
             } catch (erro) {
                 console.error("Erro ao atualizar situação financeira:", erro);
-                alert("Não foi possível atualizar o status do pagamento.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Falha na Atualização',
+                    text: 'Não foi possível salvar a nova situação do pagamento no banco de dados.',
+                    confirmButtonColor: COR_CONFIRMAR
+                });
             }
         };
 
         // Função para o Administrador remover permanentemente o pedido do Firestore
         window.excluirPedidoPainel = async function(idDoc) {
-            if (confirm("Administrador, deseja remover permanentemente este pedido concluído do sistema?")) {
+            const resultado = await Swal.fire({
+                title: 'Remover Pedido?',
+                text: 'Administrador, deseja remover permanentemente este pedido concluído do sistema?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e74c3c',
+                cancelButtonColor: '#777',
+                confirmButtonText: 'Sim, remover',
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (resultado.isConfirmed) {
                 const pedidoRef = doc(db, "pedidos", idDoc);
                 try {
                     await deleteDoc(pedidoRef);
-                    alert("Pedido removido com sucesso!");
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Pedido Removido!',
+                        text: 'O registro foi deletado permanentemente do banco de dados.',
+                        confirmButtonColor: COR_CONFIRMAR
+                    });
                 } catch (erro) {
                     console.error("Erro ao deletar pedido:", erro);
-                    alert("Não foi possível excluir o pedido.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro ao Deletar',
+                        text: 'Não foi possível excluir o registro selecionado. Tente novamente.',
+                        confirmButtonColor: COR_CONFIRMAR
+                    });
                 }
             }
         };

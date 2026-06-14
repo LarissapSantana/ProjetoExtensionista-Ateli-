@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="stylesheet" href="style.css">
+    <!-- SweetAlert2 para Alertas Modernos -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Meu Carrinho - Ateliê Jenifer Gama</title>
 </head>
 <body>
@@ -34,8 +36,7 @@
             </h1>
 
             <div style="display: flex; flex-direction: column; gap: 30px;">
-                <div id="lista-produtos-carrinho" style="background-color: var(--branco); padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                    </div>
+                <div id="lista-produtos-carrinho" style="background-color: var(--branco); padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);"></div>
 
                 <div style="background-color: var(--branco); padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
                     <h3 style="color: var(--secundaria); margin-bottom: 15px;">Forma de Pagamento</h3>
@@ -55,7 +56,7 @@
                     </div>
 
                     <h3 style="color: var(--secundaria); margin-bottom: 15px;">Descrição Opcional / Observações</h3>
-                    <textarea id="observacoes-pedido" placeholder="Ex: Adicionar tag de aniversário, observações sobre a entrega, restrições alimentares, etc..." 
+                    <textarea id="observacoes-pedido" placeholder="Ex: Adicionar tag de aniversário, restrições alimentares, etc..." 
                               style="width: 100%; min-height: 100px; padding: 12px; border: 1px solid #ddd; border-radius: 5px; font-family: inherit; margin-bottom: 25px; resize: vertical; box-sizing: border-box;"></textarea>
 
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-top: 1px solid #eee; margin-bottom: 20px;">
@@ -72,13 +73,10 @@
     </main>
 
     <footer style="margin-top: 50px;">
-        <div class="copyright">
-            <p>© 2026 Ateliê Jenifer Gama Confeitaria</p>
-        </div>
+        <div class="copyright"><p>© 2026 Ateliê Jenifer Gama Confeitaria</p></div>
     </footer>
 
     <script type="module">
-        // IMPORTAÇÃO SEGURA DO FIREBASE
         import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
         import { db } from './firebase-config.js';
@@ -88,14 +86,6 @@
         window.obterItens = function() {
             return JSON.parse(localStorage.getItem('carrinho_atelie')) || [];
         }
-        window.calcularPrecoPorPerfil = function(precoBase) {
-            const perfil = sessionStorage.getItem('perfil_cliente') || 'cnpj';
-            if (perfil === 'cpf') {
-                return precoBase * 1.30; // Acréscimo de 30% para varejo (CPF)
-            }
-            return precoBase;
-        };
-
 
         window.renderizarPaginaCarrinho = function() {
             const itens = window.obterItens();
@@ -114,9 +104,6 @@
             boxComItens.style.display = 'block';
             listaContainer.innerHTML = '';
             let totalGeral = 0;
-
-            // Obtém o perfil atual para garantir o recálculo correto na listagem
-            const perfil = sessionStorage.getItem('perfil_cliente') || 'cnpj';
 
             itens.forEach((item, index) => {
                 const precoAjustado = item.preco; 
@@ -150,29 +137,23 @@
             window.renderizarPaginaCarrinho();
         };
 
-        // FUNÇÃO DE ENVIO PARA GRAVAR NO ADM (FIREBASE)
         window.enviarPedidoFinal = async function() {
             const formaPagamento = document.querySelector('input[name="pagamento"]:checked').value;
             const obs = document.getElementById('observacoes-pedido').value;
             const itens = window.obterItens();
 
             if (itens.length === 0) {
-                alert("Seu carrinho está vazio!");
+                Swal.fire({ icon: 'warning', title: 'Carrinho Vazio', text: 'Não há itens para processar no momento.', confirmButtonColor: '#8d279b' });
                 return;
             }
 
-            // Captura o usuário logado (se houver) ou define um nome padrão temporário
             const usuarioLogado = auth.currentUser;
-            const nomeCliente = usuarioLogado ? (usuarioLogado.displayName || usuarioLogado.email) : "Cliente Anónimo";
+            const nomeCliente = sessionStorage.getItem('nome_cliente') || (usuarioLogado ? (usuarioLogado.displayName || usuarioLogado.email) : "Cliente Anônimo");
 
-            // Transforma a lista de produtos numa linha de texto resumida para a tabela do ADM
             const produtosTexto = itens.map(item => `${item.quantidade}x ${item.nome}`).join(', ');
-            
-            // Calcula o valor total obtido dos seus itens
             const valorTotalCalculado = itens.reduce((total, item) => total + (item.preco * item.quantidade), 0);
 
             try {
-                // Envia os dados estruturados para a coleção "pedidos" no Firestore
                 await addDoc(collection(db, "pedidos"), {
                     clienteNome: nomeCliente,
                     produtosDescricao: produtosTexto,
@@ -180,24 +161,27 @@
                     formaPagamento: formaPagamento,
                     observacoes: obs || "Nenhuma",
                     status: "Pendente",
+                    situacaoPagamento: "Em Aberto",
                     dataPedido: new Date()
                 });
 
-                // Mantém o comportamento original que você criou: Alerta e limpa o carrinho
-                alert(`Pedido enviado com sucesso!\nForma de Pagamento: ${formaPagamento}\nObservações: ${obs || "Nenhuma"}`);
-                
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'Pedido Registrado!',
+                    text: `Sua encomenda foi enviada com sucesso utilizando a forma de pagamento: ${formaPagamento.replace('_', ' ')}.`,
+                    confirmButtonColor: '#8d279b'
+                });
+
                 localStorage.removeItem('carrinho_atelie');
-                window.renderizarPaginaCarrinho();
+                window.location.href = 'index.html#cadastro';
 
             } catch (erro) {
                 console.error("Erro ao salvar pedido:", erro);
-                alert("Erro ao conectar com o banco de dados. O pedido foi simulado localmente.");
+                Swal.fire({ icon: 'error', title: 'Falha no Envio', text: 'Houve um problema de rede com o servidor. Tente novamente.', confirmButtonColor: '#8d279b' });
             }
         };
 
-        // Renderiza as informações assim que a página abre
         document.addEventListener('DOMContentLoaded', window.renderizarPaginaCarrinho);
     </script>
-
 </body>
 </html>

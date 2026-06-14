@@ -1,14 +1,15 @@
-// Importação das funções do SDK do Firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-// CORREÇÃO: Adicionado where, getDocs e addDoc que estavam faltando nas importações do Firestore
 import { collection, query, orderBy, onSnapshot, doc, updateDoc, deleteDoc, where, getDocs, addDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-// Importação das configurações do arquivo local
 import { db } from './firebase-config.js';
 
-// Inicialização do Auth garantindo que ele pegue a instância correta
 const auth = getAuth();
 
-// --- FUNÇÃO PARA ALTERNAR VISUALMENTE ENTRE LOGIN E CADASTRO ---
+// Paleta de Cores Padrão para os Alertas Elegantes
+const CONF_CORES = {
+    confirmar: '#8d279b',
+    cancelar: '#e74c3c'
+};
+
 window.trocarAba = function(aba) {
     const formLogin = document.getElementById('form-login');
     const formRegistro = document.getElementById('form-registro');
@@ -43,13 +44,11 @@ if (formLogin) {
             const userCredential = await signInWithEmailAndPassword(auth, email, senha);
             const user = userCredential.user;
 
-            // Busca o perfil e dados do usuário no Firestore pelo UID
             const q = query(collection(db, "usuarios"), where("uid", "==", user.uid));
             const querySnapshot = await getDocs(q);
             
             if (!querySnapshot.empty) {
                 const dadosUsuario = querySnapshot.docs[0].data();
-                // Salva rigidamente no sessionStorage o perfil E o nome para uso rápido
                 sessionStorage.setItem('perfil_cliente', dadosUsuario.perfil);
                 sessionStorage.setItem('nome_cliente', dadosUsuario.nome);
             } else {
@@ -57,18 +56,28 @@ if (formLogin) {
                 sessionStorage.setItem('nome_cliente', user.displayName || "Cliente");
             }
 
-            alert("Login realizado com sucesso! Bem-vindo(a).");
+            await Swal.fire({
+                icon: 'success',
+                title: 'Bem-vindo(a)!',
+                text: 'Login realizado com sucesso.',
+                confirmButtonColor: CONF_CORES.confirmar
+            });
             window.location.reload(); 
 
         } catch (error) {
             console.error("Erro ao fazer login:", error);
-            alert("Erro ao fazer login. Verifique as suas credenciais.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro no Login',
+                text: 'Verifique as suas credenciais e tente novamente.',
+                confirmButtonColor: CONF_CORES.confirmar
+            });
         }
     });
 }
 
-/* --- MONITOR DE ESTADO DE AUTENTICAÇÃO E ATUALIZAÇÃO DA VITRINE --- */
-let desinscreverPedidos = null; // Variável para controlar o listener em tempo real
+/* --- MONITOR DE ESTADO DE AUTENTICAÇÃO --- */
+let desinscreverPedidos = null;
 
 onAuthStateChanged(auth, async (user) => {
     const secaoLoginCadastro = document.getElementById('secao-login-cadastro');
@@ -80,7 +89,6 @@ onAuthStateChanged(auth, async (user) => {
         if (secaoLoginCadastro) secaoLoginCadastro.style.display = 'none';
         if (painelUsuario) painelUsuario.style.display = 'block';
 
-        // Se os dados não estiverem no sessionStorage, busca no Firestore
         if (!sessionStorage.getItem('perfil_cliente') || !sessionStorage.getItem('nome_cliente')) {
             try {
                 const q = query(collection(db, "usuarios"), where("uid", "==", user.uid));
@@ -95,19 +103,16 @@ onAuthStateChanged(auth, async (user) => {
             }
         }
 
-        // Exibe rigidamente o Nome Cadastrado
         if (nomeUsuarioLogado) {
             const nomeCadastrado = sessionStorage.getItem('nome_cliente');
             nomeUsuarioLogado.textContent = nomeCadastrado || user.displayName || "Cliente";
         }
 
-        // Define o texto do perfil
         const perfilSalvo = sessionStorage.getItem('perfil_cliente') || 'cnpj';
         if (tipoPerfilLogado) {
             tipoPerfilLogado.textContent = perfilSalvo === 'cpf' ? 'Pessoa Física (Varejo)' : 'Empresa (Atacado)';
         }
 
-        // CARREGA OS PEDIDOS DO USUÁRIO EM TEMPO REAL
         const nomeParaFiltrar = sessionStorage.getItem('nome_cliente') || user.displayName;
         if (nomeParaFiltrar) {
             carregarPedidosUsuario(nomeParaFiltrar);
@@ -118,14 +123,12 @@ onAuthStateChanged(auth, async (user) => {
         if (painelUsuario) painelUsuario.style.display = 'none';
         sessionStorage.clear();
         
-        // Desliga o monitor de pedidos caso o usuário saia
         if (desinscreverPedidos) {
             desinscreverPedidos();
             desinscreverPedidos = null;
         }
     }
 
-    // Recalcula e atualiza os valores na tela inicial
     atualizarPrecosVitrine();
 });
 
@@ -133,11 +136,21 @@ onAuthStateChanged(auth, async (user) => {
 const btnLogout = document.getElementById('btn-logout');
 if (btnLogout) {
     btnLogout.addEventListener('click', async () => {
-        if (confirm("Deseja realmente sair da sua conta?")) {
+        const resultado = await Swal.fire({
+            title: 'Sair da conta?',
+            text: "Deseja realmente encerrar sua sessão atual?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: CONF_CORES.confirmar,
+            cancelButtonColor: CONF_CORES.cancelar,
+            confirmButtonText: 'Sim, sair',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if (resultado.isConfirmed) {
             try {
                 await signOut(auth);
                 sessionStorage.clear();
-                alert("Sessão encerrada.");
                 window.location.reload();
             } catch (error) {
                 console.error("Erro ao deslogar:", error);
@@ -146,32 +159,23 @@ if (btnLogout) {
     });
 }
 
-// Função para calcular o preço baseado no perfil do cliente 
 window.calcularPrecoPorPerfil = function(nomeProduto, precoBase) {
     const perfil = sessionStorage.getItem('perfil_cliente') || 'cnpj';
-    
-    if (perfil !== 'cpf') {
-        return precoBase; 
-    }
+    if (perfil !== 'cpf') return precoBase; 
 
     const nomeLower = nomeProduto.toLowerCase();
-
     if (nomeLower.includes('bolo') || nomeLower.includes('pote') || nomeLower.includes('bombom')) {
         return precoBase + 5.00;
     }
-    
     if (nomeLower.includes('sanduíche') || nomeLower.includes('sanduiche') || nomeLower.includes('brownie')) {
         return precoBase + 3.00;
     }
-    
     if (nomeLower.includes('cone')) {
         return precoBase + 2.50;
     }
-
     return precoBase; 
 };
 
-// Atualiza visualmente os preços dos cards na tela inicial baseado nas novas regras de acréscimo
 function atualizarPrecosVitrine() {
     const precosOriginais = {
         "Bolo Black Meio Amargo": 13.00, "Bolo Brigadeiro com Maracujá": 13.00,
@@ -208,37 +212,28 @@ function atualizarPrecosVitrine() {
             const btnAdd = card.querySelector('.btn-acao-add');
             const btnComprar = card.querySelector('.btn-acao-comprar');
 
-            if (btnAdd) {
-                btnAdd.setAttribute('onclick', `window.confirmarAdicaoCarrinho(this, '${nomeProduto}', ${precoFinal})`);
-            }
-            if (btnComprar) {
-                btnComprar.setAttribute('onclick', `window.confirmarCompraImediata(this, '${nomeProduto}', ${precoFinal})`);
-            }
+            if (btnAdd) btnAdd.setAttribute('onclick', `window.confirmarAdicaoCarrinho(this, '${nomeProduto}', ${precoFinal})`);
+            if (btnComprar) btnComprar.setAttribute('onclick', `window.confirmarCompraImediata(this, '${nomeProduto}', ${precoFinal})`);
         }
     });
 }
 
-/* --- EVENTO DE CADASTRO COM CHECAGEM DE DUPLICIDADE --- */
+/* --- CADASTRO COM CHECAGEM DE DUPLICIDADE --- */
 const formRegistro = document.getElementById('form-registro');
 if (formRegistro) {
     formRegistro.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // 1. Captura as opções de perfil de forma segura
         const perfilSelecionado = formRegistro.querySelector('input[name="perfil"]:checked');
         const tipoPerfil = perfilSelecionado ? perfilSelecionado.value : 'cpf';
         
-        // 2. Procura os inputs diretamente pelas suas propriedades reais dentro do formulário
         const inputNome = formRegistro.querySelector('input[placeholder*="Nome"]') || formRegistro.querySelector('input[type="text"]');
         const inputEmail = formRegistro.querySelector('input[type="email"]');
         const inputSenha = formRegistro.querySelector('input[placeholder*="senha"]') || formRegistro.querySelector('input[type="password"]');
-        
-        // 3. Captura o campo de documento
-        const inputDocumento = document.getElementById('doc-input') || document.getElementById('cnpj') || formRegistro.querySelector('input[placeholder*="CPF"]');
+        const inputDocumento = document.getElementById('doc-input');
 
-        // Validação preventiva para garantir que nenhum campo venha vazio ou nulo
         if (!inputNome || !inputEmail || !inputDocumento || !inputSenha) {
-            alert("Erro interno: Não foi possível mapear todos os campos do formulário.");
+            Swal.fire({ icon: 'error', title: 'Erro Estrutural', text: 'Não foi possível mapear os campos do formulário.', confirmButtonColor: CONF_CORES.confirmar });
             return;
         }
 
@@ -247,37 +242,31 @@ if (formRegistro) {
         const documento = inputDocumento.value.trim();
         const senha = inputSenha.value;
 
-        // Validação visual rápida para o utilizador
         if (!nome || !email || !documento || !senha) {
-            alert("Por favor, preencha todos os campos obrigatórios.");
+            Swal.fire({ icon: 'warning', title: 'Campos Incompletos', text: 'Por favor, preencha todos os campos obrigatórios.', confirmButtonColor: CONF_CORES.confirmar });
             return;
         }
 
         try {
-            // 1. CHECAGEM DE E-MAIL DUPLICADO NO FIRESTORE
             const consultaEmail = query(collection(db, "usuarios"), where("email", "==", email));
             const snapshotEmail = await getDocs(consultaEmail);
             if (!snapshotEmail.empty) {
-                alert("Este endereço de e-mail já está em uso por outra conta.");
+                Swal.fire({ icon: 'error', title: 'E-mail em Uso', text: 'Este endereço de e-mail já está associado a outra conta.', confirmButtonColor: CONF_CORES.confirmar });
                 return;
             }
 
-            // 2. CHECAGEM DE CPF/CNPJ DUPLICADO NO FIRESTORE
             const consultaDoc = query(collection(db, "usuarios"), where("documento", "==", documento));
             const snapshotDoc = await getDocs(consultaDoc);
             if (!snapshotDoc.empty) {
-                alert(`Este ${tipoPerfil.toUpperCase()} já está cadastrado no sistema.`);
+                Swal.fire({ icon: 'error', title: 'Documento Duplicado', text: `Este ${tipoPerfil.toUpperCase()} já está cadastrado no sistema.`, confirmButtonColor: CONF_CORES.confirmar });
                 return;
             }
 
-            // 3. Cria o utilizador no Firebase Authentication
             const userCredential = await createUserWithEmailAndPassword(auth, email, senha);
             const user = userCredential.user;
 
-            // Define o nome de exibição nativo do Firebase Auth
             await updateProfile(user, { displayName: nome });
 
-            // 4. Salva as informações extras na coleção "usuarios" do Firestore
             await addDoc(collection(db, "usuarios"), {
                 uid: user.uid,
                 nome: nome,
@@ -287,35 +276,31 @@ if (formRegistro) {
                 dataCadastro: new Date()
             });
 
-            alert("Cadastro realizado com sucesso! Agora pode iniciar sessão.");
+            await Swal.fire({
+                icon: 'success',
+                title: 'Cadastro Concluído!',
+                text: 'Sua conta foi criada. Você já pode fazer login.',
+                confirmButtonColor: CONF_CORES.confirmar
+            });
             formRegistro.reset();
             window.trocarAba('login');
 
         } catch (error) {
             console.error("Erro ao cadastrar:", error);
-            if (error.code === 'auth/email-already-in-use') {
-                alert("Este endereço de e-mail já está em uso.");
-            } else if (error.code === 'auth/weak-password') {
-                alert("A senha deve ter pelo menos 6 caracteres.");
-            } else {
-                alert("Erro ao realizar cadastro. Verifique os dados e tente novamente.");
-            }
+            let msgErro = "Erro ao realizar o cadastro. Tente novamente.";
+            if (error.code === 'auth/email-already-in-use') msgErro = "Este endereço de e-mail já está em uso.";
+            if (error.code === 'auth/weak-password') msgErro = "A senha definida deve ter ao menos 6 caracteres.";
+            
+            Swal.fire({ icon: 'error', title: 'Falha no Registro', text: msgErro, confirmButtonColor: CONF_CORES.confirmar });
         }
     });
 }
 
-// --- FUNÇÃO PARA ALTERNAR VISUALMENTE OS CAMPOS DE CPF E CNPJ ---
 window.ajustarCampos = function(tipo) {
     const docInput = document.getElementById('doc-input');
     if (!docInput) return;
-
-    if (tipo === 'cpf') {
-        docInput.placeholder = "000.000.000-00";
-        docInput.value = ""; 
-    } else if (tipo === 'cnpj') {
-        docInput.placeholder = "00.000.000/0001-00";
-        docInput.value = ""; 
-    }
+    docInput.placeholder = tipo === 'cpf' ? "000.000.000-00" : "00.000.000/0001-00";
+    docInput.value = ""; 
 };
 
 /* --- FILTROS DE PESQUISA --- */
@@ -357,7 +342,12 @@ window.filtrarProdutos = function() {
 window.toggleFavorito = async function(element, produtoId) {
     const usuarioLogado = auth.currentUser;
     if (!usuarioLogado) {
-        alert("Precisa iniciar sessão para favoritar um produto!");
+        Swal.fire({
+            icon: 'info',
+            title: 'Acesso Necessário',
+            text: 'Faça login para salvar seus produtos favoritos!',
+            confirmButtonColor: CONF_CORES.confirmar
+        });
         document.getElementById('cadastro')?.scrollIntoView({ behavior: 'smooth' });
         window.trocarAba('login');
         return;
@@ -404,7 +394,17 @@ window.confirmarAdicaoCarrinho = function(botaoConfirmar, nome, preco) {
     const spanNumero = rodape.querySelector('.card-qtd-numero');
     const quantidade = parseInt(spanNumero.textContent) || 1;
     adicionarAoLocalStorage(nome, preco, quantidade);
-    alert(`"${nome}" adicionado ao carrinho!`);
+    
+    // Alerta do tipo Toast discreto no canto superior para não quebrar a navegação
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: `"${nome}" adicionado!`,
+        showConfirmButton: false,
+        timer: 2500
+    });
+
     restaurarEstadoCard(rodape, spanNumero);
 };
 
@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
     atualizarContadorMenu();
 });
 
-/* --- EVENTO DE LOGIN ADMINISTRATIVO --- */
+/* --- LOGIN ADMINISTRATIVO --- */
 const formAdmin = document.getElementById('formAdmin');
 if (formAdmin) {
     formAdmin.addEventListener('submit', async (e) => {
@@ -458,7 +458,7 @@ if (formAdmin) {
         const EMAIL_ADMIN_PERMITIDO = 'jenifer.atelie@gmail.com'; 
 
         if (email.toLowerCase() !== EMAIL_ADMIN_PERMITIDO.toLowerCase()) {
-            alert("Acesso negado. Credenciais administrativas inválidas.");
+            Swal.fire({ icon: 'error', title: 'Acesso Recusado', text: 'Credenciais de administrador inválidas.', confirmButtonColor: CONF_CORES.confirmar });
             return;
         }
 
@@ -466,16 +466,15 @@ if (formAdmin) {
             const userCredential = await signInWithEmailAndPassword(auth, email, senha);
             sessionStorage.setItem('perfil_cliente', 'admin');
             sessionStorage.setItem('nome_cliente', 'Administrador');
-            alert("Autenticação administrativa realizada com sucesso!");
             window.location.href = "painel-adm.html";
         } catch (error) {
             console.error("Erro ao autenticar administrador:", error);
-            alert("Erro ao acessar o painel. Verifique a senha digitada.");
+            Swal.fire({ icon: 'error', title: 'Falha na Autenticação', text: 'Senha incorreta para a conta administradora.', confirmButtonColor: CONF_CORES.confirmar });
         }
     });
 }
 
-/* --- HISTÓRICO DE PEDIDOS E OPÇÃO DE EXCLUSÃO --- */
+/* --- HISTÓRICO DE PEDIDOS --- */
 function carregarPedidosUsuario(nomeCliente) {
     const containerLista = document.getElementById('lista-pedidos-usuario');
     if (!containerLista) return;
@@ -530,13 +529,23 @@ function carregarPedidosUsuario(nomeCliente) {
 }
 
 window.excluirPedidoEntregue = async function(idPedido) {
-    if (confirm("Deseja realmente remover este pedido entregue do seu histórico?")) {
+    const resultado = await Swal.fire({
+        title: 'Remover do Histórico?',
+        text: "O registro do pedido sairá do seu painel visual.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: CONF_CORES.confirmar,
+        cancelButtonColor: CONF_CORES.cancelar,
+        confirmButtonText: 'Sim, ocultar',
+        cancelButtonText: 'Manter'
+    });
+
+    if (resultado.isConfirmed) {
         try {
             await deleteDoc(doc(db, "pedidos", idPedido));
-            alert("Pedido removido do histórico com sucesso!");
+            Swal.fire({ icon: 'success', title: 'Concluído', text: 'Histórico atualizado.', showConfirmButton: false, timer: 1500 });
         } catch (erro) {
             console.error("Erro ao excluir pedido:", erro);
-            alert("Erro ao tentar remover o pedido. Tente novamente.");
         }
     }
 };
