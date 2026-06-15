@@ -91,7 +91,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -116,7 +116,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -141,7 +141,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -166,7 +166,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -191,7 +191,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -216,7 +216,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -237,7 +237,18 @@
                     <p>Delicioso bolo de massa branca, com recheio de maracujá e cobertura de ninho.</p>
                     <div class="card-rodape">
                         <span class="preco">R$ 13,00</span>
-                        <button class="btn-pedir" onclick="transformarCard('Bolo Ninho com Maracujá', 13.00)">Pedir</button>
+                        <button class="btn-pedir" onclick="window.mostrarContadorCard(this)">Pedir</button>
+                        <div class="card-opcoes-quantidade" style="display: none;">
+                            <div class="card-seletor-interno">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
+                                <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
+                            </div>
+                            <div class="card-botoes-acao">
+                                <button class="btn-acao-add" onclick="window.confirmarAdicaoCarrinho(this, 'Bolo Ninho com Maracujá', 13.00)">Adicionar</button>
+                                <button class="btn-acao-comprar" onclick="window.confirmarCompraImediata(this, 'Bolo Ninho com Maracujá', 13.00)">Comprar Já</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -255,7 +266,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -280,7 +291,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -305,7 +316,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -330,7 +341,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -355,7 +366,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -380,7 +391,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -405,7 +416,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -430,7 +441,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -455,7 +466,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -480,7 +491,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -505,7 +516,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -530,7 +541,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -555,7 +566,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -580,7 +591,7 @@
                        <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -605,7 +616,7 @@
                          <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -630,7 +641,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -655,7 +666,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -680,7 +691,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -705,7 +716,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">
@@ -730,7 +741,7 @@
                         <div class="card-opcoes-quantidade" style="display: none;">
                             <div class="card-seletor-interno">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, -1)">-</button>
-                                <span class="card-qtd-numero">1</span>
+                                <input type="number" class="card-qtd-numero" value="1" min="1">
                                 <button class="btn-mini-contador" onclick="window.alterarQtdInterna(this, 1)">+</button>
                             </div>
                             <div class="card-botoes-acao">

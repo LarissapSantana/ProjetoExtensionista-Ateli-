@@ -243,10 +243,11 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
 }
 
 .card-seletor-interno {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;
+    display: flex !important;
 }
 
 .btn-mini-contador {
@@ -258,8 +259,10 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     width: 28px;
     height: 28px;
     border-radius: 5px;
-    cursor: pointer;
     transition: background 0.2s;
+    position: relative !important;
+    z-index: 10 !important;
+    cursor: pointer !important;
 }
 
 .btn-mini-contador:hover {
@@ -272,6 +275,13 @@ nav ul li a:hover{ /*faz a troca da cor quando o mouse passa*/
     color: var(--texto-escuro);
     min-width: 20px;
     text-align: center;
+    -moz-appearance: textfield !important;
+}
+
+.card-qtd-numero::-webkit-outer-spin-button,
+.card-qtd-numero::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
 }
 
 /* Botões de Decisão */

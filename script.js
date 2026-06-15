@@ -374,6 +374,28 @@ function obterCarrinho() { return JSON.parse(localStorage.getItem('carrinho_atel
 function salvarCarrinho(carrinho) { localStorage.setItem('carrinho_atelie', JSON.stringify(carrinho)); atualizarContadorMenu(); }
 
 window.mostrarContadorCard = function(botaoPedir) {
+    if (!auth.currentUser) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Acesso Necessário',
+            text: 'Você precisa estar cadastrado e logado para fazer um pedido!',
+            confirmButtonColor: CONF_CORES.confirmar,
+            showCancelButton: true,
+            cancelButtonText: 'Continuar olhando',
+            confirmButtonText: 'Fazer Login / Cadastrar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setTimeout(() => {
+                    const secaoCadastro = document.getElementById('cadastro');
+                    if (secaoCadastro) {
+                        secaoCadastro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        window.trocarAba('login');
+                    }
+                }, 300);
+            }
+        });
+        return;
+    }
     const rodape = botaoPedir.parentElement;
     const containerOpcoes = rodape.querySelector('.card-opcoes-quantidade');
     rodape.classList.add('selecionado');
@@ -382,20 +404,45 @@ window.mostrarContadorCard = function(botaoPedir) {
 
 window.alterarQtdInterna = function(botaoContador, alteracao) {
     const containerSeletor = botaoContador.parentElement;
-    const spanNumero = containerSeletor.querySelector('.card-qtd-numero');
-    let quantidadeAtual = parseInt(spanNumero.textContent) || 1;
+    const inputNumero = containerSeletor.querySelector('.card-qtd-numero');
+    let quantidadeAtual = parseInt(inputNumero.value) || 1;
     quantidadeAtual += alteracao;
     if (quantidadeAtual < 1) quantidadeAtual = 1;
-    spanNumero.textContent = quantidadeAtual;
+    inputNumero.value = quantidadeAtual;
 };
 
 window.confirmarAdicaoCarrinho = function(botaoConfirmar, nome, preco) {
+    if (!auth.currentUser) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Acesso Necessário',
+            text: 'Você precisa estar cadastrado e logado para adicionar produtos ao carrinho!',
+            confirmButtonColor: CONF_CORES.confirmar,
+            showCancelButton: true,
+            cancelButtonText: 'Continuar olhando',
+            confirmButtonText: 'Fazer Login / Cadastrar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setTimeout(() => {
+                    const secaoCadastro = document.getElementById('cadastro');
+                    if (secaoCadastro) {
+                        secaoCadastro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        window.trocarAba('login');
+                    }
+                }, 300);
+            }
+        });
+        return;
+    }
+
     const rodape = botaoConfirmar.closest('.card-rodape');
-    const spanNumero = rodape.querySelector('.card-qtd-numero');
-    const quantidade = parseInt(spanNumero.textContent) || 1;
+    const inputNumero = rodape.querySelector('.card-qtd-numero'); // Coleta o input correto
+    
+    let quantidade = parseInt(inputNumero.value) || 1;
+    if (quantidade < 1) quantidade = 1;
+    
     adicionarAoLocalStorage(nome, preco, quantidade);
     
-    // Alerta do tipo Toast discreto no canto superior para não quebrar a navegação
     Swal.fire({
         toast: true,
         position: 'top-end',
@@ -405,15 +452,18 @@ window.confirmarAdicaoCarrinho = function(botaoConfirmar, nome, preco) {
         timer: 2500
     });
 
-    restaurarEstadoCard(rodape, spanNumero);
+    restaurarEstadoCard(rodape, inputNumero); // Passa o input para resetar o valor
 };
 
 window.confirmarCompraImediata = function(botaoConfirmar, nome, preco) {
     const rodape = botaoConfirmar.closest('.card-rodape');
-    const spanNumero = rodape.querySelector('.card-qtd-numero');
-    const quantidade = parseInt(spanNumero.textContent) || 1;
+    const inputNumero = rodape.querySelector('.card-qtd-numero'); 
+    
+    let quantidade = parseInt(inputNumero.value) || 1;
+    if (quantidade < 1) quantidade = 1;
+    
     adicionarAoLocalStorage(nome, preco, quantidade);
-    restaurarEstadoCard(rodape, spanNumero);
+    restaurarEstadoCard(rodape, inputNumero);
     window.location.href = 'carrinho.html';
 };
 
@@ -425,11 +475,11 @@ function adicionarAoLocalStorage(nome, preco, quantidade) {
     salvarCarrinho(carrinho);
 }
 
-function restaurarEstadoCard(rodape, spanNumero) {
+function restaurarEstadoCard(rodape, inputNumero) {
     const containerOpcoes = rodape.querySelector('.card-opcoes-quantidade');
     rodape.classList.remove('selecionado');
     if (containerOpcoes) containerOpcoes.style.display = 'none';
-    spanNumero.textContent = "1";
+    if (inputNumero) inputNumero.value = "1";
 }
 
 function atualizarContadorMenu() {
@@ -441,7 +491,27 @@ function atualizarContadorMenu() {
     contadorGlobal.style.display = totalItens > 0 ? 'block' : 'none';
 }
 
-window.abrirCarrinho = function() { window.location.href = 'carrinho.html'; };
+window.abrirCarrinho = function() { 
+    if (!auth.currentUser) {
+        Swal.fire({
+            icon: 'info',
+            title: 'Carrinho Bloqueado',
+            text: 'Faça login ou cadastre-se para acessar o seu carrinho de compras!',
+            confirmButtonColor: CONF_CORES.confirmar,
+            confirmButtonText: 'Ir para Login/Cadastro'
+        }).then(() => {
+            setTimeout(() => {
+                const secaoCadastro = document.getElementById('cadastro');
+                if (secaoCadastro) {
+                    secaoCadastro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    window.trocarAba('login');
+                }
+            }, 300);
+        });
+        return;
+    }
+    window.location.href = 'carrinho.html'; 
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     atualizarContadorMenu();
