@@ -22,16 +22,14 @@ O projeto é o resultado da sinergia entre quatro disciplinas fundamentais do cu
 
 ## Funcionalidades Principais
 
-### Para o Cliente (Comércios/CNPJ)
-*   Cadastro de empresa (CNPJ) e histórico de compras.
+### Para o Cliente (Comércios/CNPJ ou CPF)
+*   Cadastro de empresa (CNPJ) ou Pessoa Física (CPF) e histórico de compras.
 *   Catálogo digital de produtos atualizado.
 *   Carrinho de compras e envio de pedidos de forma 100% digital.
 
 ### Para o Administrador (Ateliê Jenifer Gama)
 *   Painel de controle (Dashboard) com pedidos do dia/semana.
 *   Alteração de status do pedido (Pendente, Em Produção, Saiu para Entrega, Entregue).
-*   Relatórios simples de vendas para tomada de decisão.
-
 ---
 
 ## Tecnologias Utilizadas
@@ -43,14 +41,7 @@ O projeto é o resultado da sinergia entre quatro disciplinas fundamentais do cu
 
 ---
 
-## Arquitetura do Banco de Dados
-
-**ATUALIZAR**
-
----
-
 ## Integrantes do Grupo
 
-*   **Larissa Prado Santana** - CP: 3035387 - *Responsabilidade principal: Frontend, Documentação, Organização,*
-*   **Rafaela Ágatha de Souza Camargo** - CP: 3035549 - *Responsabilidade principal: Banco de Dados, Documentação*
-*   **Isabela Yumi Nitta** - CP: 3035719 - *Responsabilidade principal: IHC, Frontend, Documentação*
+*   **Larissa Prado Santana** - CP: 3035387 
+*   **Isabela Yumi Nitta** - CP: 3035719 
